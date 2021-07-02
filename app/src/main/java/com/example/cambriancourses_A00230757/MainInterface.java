@@ -1,6 +1,8 @@
 package com.example.cambriancourses_A00230757;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,9 +27,13 @@ public class MainInterface extends AppCompatActivity {
     }
     public void login(View v ) {
 if( v.getId() == R.id.imv1){
+    Intent in =new Intent(this,AddDepartmentActivity.class);
+    startActivity(in);
 Toast.makeText(getApplicationContext(),"Admin Login",Toast.LENGTH_SHORT).show();
 }
         else if( v.getId() == R.id.imv2){
+    Intent in =new Intent(this,StorageDemo.class);
+    startActivity(in);
     Toast.makeText(getApplicationContext(),"Professor Login",Toast.LENGTH_SHORT).show();
         }
         else if( v.getId() == R.id.imv3){
