@@ -32,9 +32,8 @@ if( v.getId() == R.id.imv1){
 Toast.makeText(getApplicationContext(),"Admin Login",Toast.LENGTH_SHORT).show();
 }
         else if( v.getId() == R.id.imv2){
-    Intent in =new Intent(this,StorageDemo.class);
+    Intent in =new Intent(this,AddCoursesActivity.class);
     startActivity(in);
-    Toast.makeText(getApplicationContext(),"Professor Login",Toast.LENGTH_SHORT).show();
         }
         else if( v.getId() == R.id.imv3){
     Toast.makeText(getApplicationContext(),"Student Login",Toast.LENGTH_SHORT).show();
