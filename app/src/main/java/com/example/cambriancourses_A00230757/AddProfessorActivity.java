@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -38,69 +40,100 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AddDepartmentActivity extends AppCompatActivity {
+public class AddProfessorActivity extends AppCompatActivity {
 
-    ArrayList<department> arraylist_departments = new ArrayList<department>();
-    myadapter mycustomadapter_departments;
+    ArrayList<professor> arraylist_professor = new ArrayList<professor>();
+    myadapter mycustomadapter_professor;
 
-    ListView listview_departments;
-    EditText edittext_department_name,edittext_description,edittext_imagepath;
+    ListView listview_professor;
+    EditText edittext_professor_name,edittext_email,edittext_imagepath,edittext_mobile;
+
+    Spinner spinnerdepartment;
+    ArrayList<String> arraydepartments = new ArrayList<>();
+    ArrayAdapter<String> adapter_departments ;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefdepartment;
-    DatabaseReference departmentref;
+    DatabaseReference mainrefprofessor;
+    DatabaseReference professorref;
     FirebaseStorage firebaseStorage;
     StorageReference mainrefstorage;
 
-    String department_photopath="";
+    String professor_photopath="";
+    String selected_department="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_department);
+        setContentView(R.layout.activity_add_professor);
 
-        listview_departments = (ListView) (findViewById(R.id.listview_departments));
-        edittext_department_name = (EditText) (findViewById(R.id.edittext_department_name));
-        edittext_description = (EditText) (findViewById(R.id.edittext_description));
+        listview_professor = (ListView) (findViewById(R.id.listview_professor));
+        edittext_professor_name = (EditText) (findViewById(R.id.edittext_professor_name));
+        edittext_email = (EditText) (findViewById(R.id.edittext_email));
+        edittext_mobile = (EditText) (findViewById(R.id.edittext_mobile));
         edittext_imagepath = (EditText) (findViewById(R.id.edittext_imagepath));
 
+        spinnerdepartment = (Spinner) (findViewById(R.id.spinnerdepartment));
+        adapter_departments = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arraydepartments);
+        spinnerdepartment.setAdapter(adapter_departments);
+
+
+
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
-        mainrefdepartment = firebaseDatabase.getReference();
-        departmentref =mainrefdepartment.child("departments");
+        mainrefprofessor = firebaseDatabase.getReference();
+        professorref =mainrefprofessor.child("professors");
 
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
 
-        mycustomadapter_departments = new myadapter();
-        listview_departments.setAdapter(mycustomadapter_departments);
+        mycustomadapter_professor= new myadapter();
+        listview_professor.setAdapter(mycustomadapter_professor);
         fetchDepartmentsFromFirebase();
 
-        listview_departments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerdepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selected_department = arraydepartments.get(position);
+                fetchProfessorsFromFirebase(selected_department);
+                Toast.makeText(getApplicationContext(),selected_department,Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        listview_professor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), arraylist_departments.get(position).name+" "+arraylist_departments.get(position).description, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), arraylist_professor.get(position).name+" "+arraylist_professor.get(position).email, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void fetchDepartmentsFromFirebase(){
-        arraylist_departments.clear();
+        arraydepartments.clear();
+        DatabaseReference mainrefdepartment;
+        DatabaseReference departmentref;
+        mainrefdepartment = firebaseDatabase.getReference();
+        departmentref =mainrefdepartment.child("departments");
         departmentref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                arraylist_departments.clear();
+                arraydepartments.clear();
                 //Log.d("MYESSAGE",dataSnapshot.toString());
                 for(DataSnapshot  singlesnapshot : dataSnapshot.getChildren())
                 {
                     department depttemp = singlesnapshot.getValue(department.class);
                     try {
-                        //Log.d("MYESSAGE",singlesnapshot.getValue(department.class));
+                        Log.d("MYESSAGE",singlesnapshot.getValue(department.class).name);
                     }
                     catch (Exception ex){
                         ex.printStackTrace();
                     }
-                    arraylist_departments.add(depttemp);
+                    arraydepartments.add(depttemp.name);
                 }
-                mycustomadapter_departments.notifyDataSetChanged();
+                adapter_departments.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -109,11 +142,40 @@ public class AddDepartmentActivity extends AppCompatActivity {
         });
     }
 
-    public boolean checkDuplicateEntry (String deptname){
+    public void fetchProfessorsFromFirebase(String department_selected){
+        arraylist_professor.clear();
+        professorref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                arraylist_professor.clear();
+                //Log.d("MYESSAGE",dataSnapshot.toString());
+                for(DataSnapshot  singlesnapshot : dataSnapshot.getChildren())
+                {
+                    professor professortemp = singlesnapshot.getValue(professor.class);
+                    try {
+                        if(professortemp.under_dept.equals(department_selected)){
+                            arraylist_professor.add(professortemp);
+                        }
+                    }
+                    catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+
+                }
+                mycustomadapter_professor.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public boolean checkDuplicateEntry (String professoremail){
         boolean flag = true;
-        for(int i=0; i<arraylist_departments.size(); i++) {
-            String single_department_name = arraylist_departments.get(i).name;
-            if (single_department_name.equals(deptname)){
+        for(int i=0; i<arraylist_professor.size(); i++) {
+            String single_professor_email = arraylist_professor.get(i).email;
+            if (single_professor_email.equals(professoremail)){
                 flag = false;
                 break;
             }
@@ -158,8 +220,8 @@ public class AddDepartmentActivity extends AppCompatActivity {
                 Uri tempUri = getImageUri(getApplicationContext(), bmp);
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(getRealPathFromURI(tempUri));
-                department_photopath =finalFile.getAbsolutePath().toString();
-                edittext_imagepath.setText(department_photopath);
+                professor_photopath =finalFile.getAbsolutePath().toString();
+                edittext_imagepath.setText(professor_photopath);
                 edittext_imagepath.setEnabled(false);
                 Log.d("MYMESSAGE",finalFile.getAbsolutePath().toString());
 
@@ -188,59 +250,64 @@ public class AddDepartmentActivity extends AppCompatActivity {
 
     public void add(View view)
     {
-        String name_department = edittext_department_name.getText().toString();
-        String description_department = edittext_description.getText().toString();
-        if (name_department.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Enter department name",Toast.LENGTH_SHORT).show();
+        String name_professor = edittext_professor_name.getText().toString();
+        String email_professor = edittext_email.getText().toString();
+        String mobile_professor =edittext_mobile.getText().toString();
+        if (name_professor.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Enter professor name",Toast.LENGTH_SHORT).show();
         }
-        else if(description_department.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Enter department description",Toast.LENGTH_SHORT).show();
+        else if(email_professor.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Enter professor email",Toast.LENGTH_SHORT).show();
         }
-        else if (department_photopath.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Choose department image",Toast.LENGTH_SHORT).show();
+        else if (mobile_professor.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Enter professor mobile number",Toast.LENGTH_SHORT).show();
+        }
+        else if (professor_photopath.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Choose professor image",Toast.LENGTH_SHORT).show();
         }
         else{
-            department department_object = new department(name_department,description_department,department_photopath+"/"+name_department);
-            DatabaseReference deparmtment_reference = departmentref.child(name_department);
-            Log.d("MYMESSAGE",deparmtment_reference.getKey());
-            if(checkDuplicateEntry(name_department)) {
-                deparmtment_reference.setValue(department_object);
-                uploadlogic(department_photopath , name_department);
+            professor professor_object = new professor(name_professor,email_professor,professor_photopath+"/"+name_professor,mobile_professor,selected_department);
+            DatabaseReference professor_reference = professorref.child(mobile_professor);
+            Log.d("MYMESSAGE",professor_reference.getKey());
+            if(checkDuplicateEntry(email_professor)) {
+                professor_reference.setValue(professor_object);
+                uploadlogic(professor_photopath , name_professor);
             }
             else{
-                Toast.makeText(getApplicationContext(),"Department with same name already exists",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"professor with same name in this department already exists",Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void uploadlogic(String path , String deptname)
+    public void uploadlogic(String path , String professorname)
     {
         File localfile=new File(path);
         final long uploadfilesize = localfile.length();
-        StorageReference filerefoncloud = mainrefstorage.child("/departments/"+department_photopath+"/"+deptname);
+        StorageReference filerefoncloud = mainrefstorage.child("/professors/"+professor_photopath+"/"+professorname);
         UploadTask myuploadtask = filerefoncloud.putFile(Uri.fromFile(localfile));
         myuploadtask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(AddDepartmentActivity.this, "New department Added ,Upload DONE !!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProfessorActivity.this, "New professor Added ,Upload DONE !!!!", Toast.LENGTH_SHORT).show();
                 //tv3.setText(taskSnapshot.getMetadata().getReference().getDownloadUrl().toString()+"");
-                edittext_department_name.setText("");
-                edittext_description.setText("");
+                edittext_professor_name.setText("");
+                edittext_email.setText("");
+                edittext_mobile.setText("");
                 edittext_imagepath.setText("");
-                department_photopath="";
-                fetchDepartmentsFromFirebase();
+                professor_photopath="";
+                fetchProfessorsFromFirebase(selected_department);
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddDepartmentActivity.this, "New Department Upload Failed !!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProfessorActivity.this, "New professor Upload Failed !!!", Toast.LENGTH_SHORT).show();
             }
         });
         myuploadtask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-               // int per = (int)((taskSnapshot.getBytesTransferred()*100)/uploadfilesize);
+                // int per = (int)((taskSnapshot.getBytesTransferred()*100)/uploadfilesize);
                 //pbar2.setProgress(per);
             }
         });
@@ -248,11 +315,11 @@ public class AddDepartmentActivity extends AppCompatActivity {
 
     public void deletefile(String path)
     {
-        StorageReference file11 = mainrefstorage.child("departments/"+path);
+        StorageReference file11 = mainrefstorage.child("professors/"+path);
         file11.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(AddDepartmentActivity.this, "Department Deleted ,File Deleted from Storage", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProfessorActivity.this, "Professor Deleted ,File Deleted from Storage", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -261,12 +328,12 @@ public class AddDepartmentActivity extends AppCompatActivity {
     {
         @Override
         public int getCount() {
-            return arraylist_departments.size();
+            return arraylist_professor.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return arraylist_departments.get(position);
+            return arraylist_professor.get(position);
         }
 
         @Override
@@ -279,28 +346,29 @@ public class AddDepartmentActivity extends AppCompatActivity {
 
             if(convertView==null) {
                 LayoutInflater l = LayoutInflater.from(getApplicationContext());
-                convertView = l.inflate(R.layout.single_row_adddepartment, parent, false);
+                convertView = l.inflate(R.layout.single_professor_layout, parent, false);
             }
-            TextView texview_department_name = (TextView) (convertView.findViewById(R.id.texview_department_name));
-            TextView texview_department_description = (TextView) (convertView.findViewById(R.id.texview_department_description));
-            TextView texview_department_photo = (TextView) (convertView.findViewById(R.id.texview_department_photo));
-            Button btdelete =(Button)(convertView.findViewById(R.id.btdeletedept));
-            ImageView imv1dept =(ImageView) (convertView.findViewById(R.id.imv1dept));
+            TextView texview_professor_name = (TextView) (convertView.findViewById(R.id.texview_professor_name));
+            TextView texview_professor_email = (TextView) (convertView.findViewById(R.id.texview_professor_email));
+            TextView texview_professor_mobile = (TextView) (convertView.findViewById(R.id.texview_professor_mobile));
+            Button btdelete =(Button)(convertView.findViewById(R.id.btdeletecourse));
+            ImageView imv1course =(ImageView) (convertView.findViewById(R.id.imv1course));
 
-            department d = arraylist_departments.get(position);
-            texview_department_name.setText("Name "+d.name);
-            texview_department_description.setText("Description "+d.description);
-            texview_department_photo.setText("path "+d.path);
+            professor p = arraylist_professor.get(position);
+            Log.d("TTHHGG",p.name+","+p.email+","+p.mobile);
+            texview_professor_name.setText("Name "+p.name);
+            texview_professor_email.setText("Email "+p.email);
+            texview_professor_mobile.setText("Mobile "+p.mobile);
 
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference department_photo_reference = storageRef.child("departments"+d.path);
-            department_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+            StorageReference professor_photo_reference = storageRef.child("professors"+p.path);
+            professor_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
             {
                 @Override
                 public void onSuccess(Uri downloadUrl)
                 {
                     //do something with downloadurl
-                    Picasso.with(AddDepartmentActivity.this).load(downloadUrl).resize(200,200).into(imv1dept);
+                    Picasso.with(AddProfessorActivity.this).load(downloadUrl).resize(200,200).into(imv1course);
                 }
             });
 
@@ -310,13 +378,13 @@ public class AddDepartmentActivity extends AppCompatActivity {
                     btdelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            departmentref.child(d.name).addListenerForSingleValueEvent(new ValueEventListener() {
+                            professorref.child(p.name).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()) {
                                         singleSnapshot.getRef().removeValue();
-                                        deletefile(d.path);
-                                        fetchDepartmentsFromFirebase();
+                                        deletefile(p.path);
+                                        fetchProfessorsFromFirebase(selected_department);
                                     }
                                 }
                                 @Override

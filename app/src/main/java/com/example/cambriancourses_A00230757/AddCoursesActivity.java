@@ -76,7 +76,7 @@ public class AddCoursesActivity extends AppCompatActivity {
 
 
 
-        firebaseDatabase = FirebaseDatabase.getInstance("https://cambriancourses-harpreet-default-rtdb.firebaseio.com/");
+        firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         courseref =mainrefcourse.child("courses");
 

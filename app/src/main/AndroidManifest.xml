@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CambrianCourses_Harpreet">
-        <activity android:name=".AddCoursesActivity"></activity>
+        <activity android:name=".AddProfessorActivity"></activity>
+        <activity android:name=".AddCoursesActivity" />
         <activity android:name=".AddDepartmentActivity" />
         <activity android:name=".MainInterface" />
         <activity android:name=".SplashScreen">
