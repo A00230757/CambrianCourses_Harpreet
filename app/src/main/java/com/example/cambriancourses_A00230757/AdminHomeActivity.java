@@ -12,7 +12,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
     ImageView imv1, imv2, imv3, imv4;
 
-    int a[] = {R.drawable.admin, R.drawable.professor, R.drawable.student};
+    int a[] = {R.drawable.department, R.drawable.addcourse, R.drawable.professor , R.drawable.student};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         imv1.setImageResource(a[0]);
         imv2.setImageResource(a[1]);
         imv3.setImageResource(a[2]);
-        imv4.setImageResource(a[2]);
+        imv4.setImageResource(a[3]);
     }
     public void login(View v ) {
         if( v.getId() == R.id.imv1){
