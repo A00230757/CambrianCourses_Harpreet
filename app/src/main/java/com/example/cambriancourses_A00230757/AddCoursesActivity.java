@@ -217,7 +217,7 @@ public class AddCoursesActivity extends AppCompatActivity {
                 {
                     course coursetemp = singlesnapshot.getValue(course.class);
                     try {
-                        if(coursetemp.under_dept.equals(department_selected)&& coursetemp.professor.equals(selected_professor)){
+                        if(coursetemp.under_dept.equals(department_selected)&& coursetemp.professor.equals(professor_selected)){
                             arraylist_courses.add(coursetemp);
                         }
                     }
