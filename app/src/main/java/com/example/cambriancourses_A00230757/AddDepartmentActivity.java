@@ -268,6 +268,7 @@ public class AddDepartmentActivity extends AppCompatActivity {
             TextView texview_department_description = (TextView) (convertView.findViewById(R.id.texview_department_description));
             TextView texview_department_photo = (TextView) (convertView.findViewById(R.id.texview_department_photo));
             Button btdelete =(Button)(convertView.findViewById(R.id.btdeletedept));
+            Button btedit =(Button)(convertView.findViewById(R.id.bteditdept));
             ImageView imv1dept =(ImageView) (convertView.findViewById(R.id.imv1dept));
 
             department d = arraylist_departments.get(position);
@@ -310,6 +311,36 @@ public class AddDepartmentActivity extends AppCompatActivity {
                     });
                 }
             }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    btedit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            departmentref.child(d.name).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()) {
+//                                        singleSnapshot.getRef().removeValue();
+//                                        deletefile(d.path);
+//                                        fetchDepartmentsFromFirebase();
+                                        Intent myIntent = new Intent(AddDepartmentActivity.this, EditDepartmentDialogActivity.class);
+                                        myIntent.putExtra("name",d.name); //Optional parameters
+                                        myIntent.putExtra("description",d.description); //Optional parameters
+                                        myIntent.putExtra("path",d.path); //Optional parameters
+                                    startActivity(myIntent);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
+                    });
+                }
+            }).start();
+
             return convertView;
         }
 

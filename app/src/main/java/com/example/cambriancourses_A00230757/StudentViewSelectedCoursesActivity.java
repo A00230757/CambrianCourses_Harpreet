@@ -18,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 public class StudentViewSelectedCoursesActivity extends AppCompatActivity {
@@ -111,7 +114,7 @@ mycustomadapter_courses = new myadapter();
             Button btdelete = (Button) (convertView.findViewById(R.id.btdeletecourse));
 
             selectedcourse d = arraylist_courses.get(position);
-            texview_course_name.setText("Name " + d.coursecode);
+            texview_course_name.setText("CourseName: " + d.coursecode);
 
 
             new Thread(new Runnable() {
