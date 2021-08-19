@@ -12,7 +12,8 @@ import android.widget.Toast;
 public class StudentLoginActivity extends AppCompatActivity {
 
     EditText edittextstudentid, edittextstudentpassword;
-
+String studentid = "";
+String studentpassword = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +23,19 @@ public class StudentLoginActivity extends AppCompatActivity {
         edittextstudentpassword= (EditText) (findViewById(R.id.edittextstudentpassword));
     }
     public void login(View v ) {
-        Intent in =new Intent(this,StudentHomeActivity.class);
-        startActivity(in);
+        studentid = edittextstudentid.getText().toString();
+        studentpassword = edittextstudentpassword.getText().toString();
+        if(studentid.isEmpty()){
+            Toast.makeText(getApplicationContext(),"enter student id",Toast.LENGTH_SHORT);
+        }
+        else if(studentpassword.isEmpty()){
+            Toast.makeText(getApplicationContext(),"enter student password",Toast.LENGTH_SHORT);
+        }
+        else{
+            Intent in =new Intent(this,StudentHomeActivity.class);
+            startActivity(in);
+        }
+
     }
 }
 

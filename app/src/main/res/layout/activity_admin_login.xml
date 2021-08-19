@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="LOGIN"
-            android:onClick="login"
+            android:onClick="adminlogin"
             />
 
     </LinearLayout>
