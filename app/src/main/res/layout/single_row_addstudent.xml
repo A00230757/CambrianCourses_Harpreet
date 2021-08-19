@@ -19,26 +19,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content">
         <TextView
-            android:textSize="20dp"
-            android:textColor="#6c0909"
+            style="@style/TextViewStyle_SingleLayout"
             android:id="@+id/texview_student_name"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="cursive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:fontFamily="cursive"
-            android:textSize="20dp"
-            android:textColor="#6c0909"
-            android:layout_marginBottom="5dp"
+            style="@style/TextViewStyle_SingleLayout"
             android:id="@+id/texview_student_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:textSize="20dp"
-            android:textColor="#6c0909"
-            android:fontFamily="cursive"
-            android:layout_marginBottom="5dp"
+            style="@style/TextViewStyle_SingleLayout"
             android:id="@+id/texview_student_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

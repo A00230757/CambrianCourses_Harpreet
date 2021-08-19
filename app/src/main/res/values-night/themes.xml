@@ -2,15 +2,96 @@
     <!-- Base application theme. -->
     <style name="Theme.CambrianCourses_Harpreet" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <!-- colorPrimary       changed from @color/purple_700 to #E20D9B-->
+        <item name="colorPrimary">#6c1111</item>
+        <!-- colorPrimaryVariant       changed from @color/purple_700 to #000000-->
+        <item name="colorPrimaryVariant">#000000</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <!-- colorSecondary       changed from @color/teal_200 to #E73B0C-->
+        <item name="colorSecondary">#E73B0C</item>
+        <!-- colorSecondaryVariant      changed from @color/teal_700 to #C6421E-->
+        <item name="colorSecondaryVariant">#C6421E</item>
+        <!-- colorOnSecondary      changed from @color/teal_200 to #000000-->
+        <item name="colorOnSecondary">#000000</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <!--        <item name="materialButtonStyle">@style/ButtonStyle_login</item>-->
     </style>
+
+    <style name="ButtonStyle_login" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="ButtonStyle_listmain" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">#6c1111</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+    <style name="ButtonStyle_list" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">#6c1111</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="LinearLayoutStyle" >
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">#000000</item>
+    </style>
+
+    <style name="TextViewStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="TextViewStyle_Info">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="TextViewStyle_Splash">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="TextViewStyle_Splash_Name">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="TextViewStyle_SingleLayout">
+        <item name="android:fontFamily">cursive</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="EditTextColor_Dialog">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="Theme.CambrianCourses_Harpreet.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ImageViewAdminHome">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_margin">5px</item>
+    </style>
+
+    <style name="Theme.CambrianCourses_Harpreet.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.CambrianCourses_Harpreet.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

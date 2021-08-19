@@ -15,7 +15,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     TextView textviewwelcome;
     String adminid="";
 
-    int a[] = {R.drawable.depticon, R.drawable.addcourse, R.drawable.professor , R.drawable.student};
+    int a[] = {R.drawable.depticon, R.drawable.courses, R.drawable.professor , R.drawable.student};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
