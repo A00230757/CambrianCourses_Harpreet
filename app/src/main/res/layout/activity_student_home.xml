@@ -7,17 +7,21 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        android:layout_margin="50px"
-        android:background="#ffccff"
+        style="@style/LinearLayoutStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOGOUT"
+            style="@style/ButtonStyle_login"
+            android:onClick="logout"
+            />
         <TextView
             android:text="WELCOME STUDENT"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="10px"
-            android:gravity="center_horizontal"
+            android:id="@+id/textviewwelcome"
+            style="@style/TextViewStyle_Info"
             android:layout_height="wrap_content" />
 
         <Button
@@ -25,10 +29,7 @@
             android:layout_height="wrap_content"
             android:text="EDIT PROFILE"
             android:id="@+id/editprofilebutton"
-            android:textStyle="bold"
-            android:textSize="25px"
-            android:background="#ffffff"
-            android:textColor="#ffffff"
+            style="@style/ButtonStyle_listmain"
             android:onClick="goToNextActivity"
             />
         <Button
@@ -36,10 +37,7 @@
             android:layout_height="wrap_content"
             android:text="SELECT NEW COURSES"
             android:id="@+id/selectnewcoursesbutton"
-            android:textStyle="bold"
-            android:textSize="25px"
-            android:background="#ffffff"
-            android:textColor="#ffffff"
+            style="@style/ButtonStyle_listmain"
             android:onClick="goToNextActivity"
             />
         <Button
@@ -47,12 +45,8 @@
             android:layout_height="wrap_content"
             android:text="VIEW ALREADY SELECTED COURSES"
             android:id="@+id/viewselectedcoursesbutton"
-            android:textStyle="bold"
-            android:textSize="25px"
-            android:background="#ffffff"
-            android:textColor="#ffffff"
+            style="@style/ButtonStyle_listmain"
             android:onClick="goToNextActivity"
             />
-
     </LinearLayout>
 </ScrollView>

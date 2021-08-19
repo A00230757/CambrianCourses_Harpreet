@@ -211,7 +211,8 @@ public class AddDepartmentActivity extends AppCompatActivity {
                 edittext_description.setText("");
                 edittext_imagepath.setText("");
                 department_photopath="";
-               // fetchDepartmentsFromFirebase();
+               //fetchDepartmentsFromFirebase();
+                mycustomadapter_departments.notifyDataSetChanged();
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
@@ -272,21 +273,27 @@ public class AddDepartmentActivity extends AppCompatActivity {
             ImageView imv1dept =(ImageView) (convertView.findViewById(R.id.imv1dept));
 
             department d = arraylist_departments.get(position);
-            texview_department_name.setText("Name "+d.name);
-            texview_department_description.setText("Description "+d.description);
-            texview_department_photo.setText("path "+d.path);
+            texview_department_name.setText("Name: "+d.name);
+            texview_department_description.setText("Description: "+d.description);
+            texview_department_photo.setText("path: "+d.path);
 
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference department_photo_reference = storageRef.child("departments"+d.path);
-            department_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-            {
+            new Thread(new Runnable() {
                 @Override
-                public void onSuccess(Uri downloadUrl)
-                {
-                    //do something with downloadurl
-                    Picasso.with(AddDepartmentActivity.this).load(downloadUrl).resize(200,200).into(imv1dept);
+                public void run() {
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                    StorageReference department_photo_reference = storageRef.child("departments"+d.path);
+                    department_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                    {
+                        @Override
+                        public void onSuccess(Uri downloadUrl)
+                        {
+                            //do something with downloadurl
+                            Picasso.with(AddDepartmentActivity.this).load(downloadUrl).resize(200,200).into(imv1dept);
+                        }
+                    });
                 }
-            });
+            }).start();
+
 
             new Thread(new Runnable() {
                 @Override

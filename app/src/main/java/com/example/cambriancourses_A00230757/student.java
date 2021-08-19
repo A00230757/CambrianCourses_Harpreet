@@ -7,11 +7,12 @@ public class student {
     public String path;
     public String mobile;
     public String under_dept;
+    public String password;
     student(){
         name="";
         email = "";
     }
-    public student(String studentid ,String name,String email,String path , String mobile,String under_dept)
+    public student(String studentid ,String name,String email,String path , String mobile,String under_dept,String password)
     {
         this.studentid = studentid;
         this.name=name;
@@ -19,6 +20,7 @@ public class student {
         this.path = path;
         this.mobile=mobile;
         this.under_dept=under_dept;
+        this.password = password;
     }
 
 

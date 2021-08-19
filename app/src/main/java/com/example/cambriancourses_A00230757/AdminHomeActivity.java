@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
     ImageView imv1, imv2, imv3, imv4;
+    TextView textviewwelcome;
+    String adminid="";
 
-    int a[] = {R.drawable.department, R.drawable.addcourse, R.drawable.professor , R.drawable.student};
+    int a[] = {R.drawable.depticon, R.drawable.addcourse, R.drawable.professor , R.drawable.student};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,10 +25,21 @@ public class AdminHomeActivity extends AppCompatActivity {
         imv2 = (ImageView) (findViewById(R.id.imv2));
         imv3 = (ImageView) (findViewById(R.id.imv3));
         imv4 = (ImageView) (findViewById(R.id.imv4));
+
+        Intent intent = getIntent();
+        adminid = intent.getStringExtra("adminid");
+
+        textviewwelcome=(TextView)(findViewById(R.id.textviewwelcome));
+        textviewwelcome.setText("WELCOME ADMIN ID:"+adminid);
+
         imv1.setImageResource(a[0]);
         imv2.setImageResource(a[1]);
         imv3.setImageResource(a[2]);
         imv4.setImageResource(a[3]);
+    }
+    public void logout(View view){
+        Intent in =new Intent(this,MainInterface.class);
+        startActivity(in);
     }
     public void login(View v ) {
         if( v.getId() == R.id.imv1){

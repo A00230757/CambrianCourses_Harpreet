@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class StudentViewSelectedCoursesActivity extends AppCompatActivity {
 
 
-    String studentid = "a00230757";
+    String studentid = "";
     ArrayList<selectedcourse> arraylist_courses = new ArrayList<selectedcourse>();
     myadapter mycustomadapter_courses;
 
@@ -40,6 +40,8 @@ public class StudentViewSelectedCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_view_selected_courses);
+        Intent intent = getIntent();
+        studentid=intent.getStringExtra("studentid");
 
         listview_courses = (ListView) (findViewById(R.id.listview_selectedcourses));
 

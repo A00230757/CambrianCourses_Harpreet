@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/LinearLayoutStyle"
     android:orientation="vertical"
     >
 
@@ -10,20 +11,24 @@
         android:gravity="center"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            style="@style/ImageViewAdminHome"
+            android:src="@drawable/camcoll"
+            android:layout_gravity="center_horizontal"
+            />
         <TextView
-            android:textColor="#580505"
-            android:textSize="25dp"
+            style="@style/TextViewStyle_Splash"
             android:text="Cambrian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="italic"
+            style="@style/TextViewStyle_Splash"
             android:text="Courses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

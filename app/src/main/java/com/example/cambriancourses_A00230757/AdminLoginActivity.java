@@ -66,6 +66,7 @@ String password_admin ="";
             if(flag){
                 flag=false;
             Intent in =new Intent(this,AdminHomeActivity.class);
+            in.putExtra("adminid",adminid);
             startActivity(in);
 
             }
@@ -91,13 +92,9 @@ String password_admin ="";
                         String v =  singlesnapshot.child("password").getValue().toString();
                         id_admin=id_admin+k+",";
                         password_admin=password_admin+v+",";
-                        Toast.makeText(getApplicationContext(),k,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),k,Toast.LENGTH_SHORT).show();
 //                        Log.d("MSSGG",k+","+v+","+adminid+","+adminpassword);
-
-
                     }
-
-
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -108,9 +105,6 @@ String password_admin ="";
         catch (Exception ex){
             ex.printStackTrace();
         }
-
-
-
         }
 
 

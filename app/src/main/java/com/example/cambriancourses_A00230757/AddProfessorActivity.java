@@ -280,6 +280,7 @@ public class AddProfessorActivity extends AppCompatActivity {
                 edittext_imagepath.setText("");
                 professor_photopath="";
                 //fetchProfessorsFromFirebase(selected_department);
+                mycustomadapter_professor.notifyDataSetChanged();
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
@@ -340,9 +341,9 @@ public class AddProfessorActivity extends AppCompatActivity {
 
             professor p = arraylist_professor.get(position);
             Log.d("TTHHGG",p.name+","+p.email+","+p.mobile);
-            texview_professor_name.setText("Name "+p.name);
-            texview_professor_email.setText("Email "+p.email);
-            texview_professor_mobile.setText("Mobile "+p.mobile);
+            texview_professor_name.setText("Name: "+p.name);
+            texview_professor_email.setText("Email: "+p.email);
+            texview_professor_mobile.setText("Mobile: "+p.mobile);
 
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
             StorageReference professor_photo_reference = storageRef.child("professors"+p.path);

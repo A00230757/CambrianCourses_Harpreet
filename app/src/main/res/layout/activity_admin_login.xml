@@ -1,54 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <!-- Here you put the rest of your current view-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:id="@+id/activity_main_interface"
-        android:layout_margin="50px"
-        android:background="#ffccff"
+        style="@style/LinearLayoutStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <TextView
             android:text="Enter Admin ID"
+            style="@style/TextViewStyle"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="10px"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:id="@+id/tv1" />
       <EditText
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:hint="Enter ID"
+          android:text="admin1"
           android:id="@+id/edittextadminid"
           />
         <TextView
             android:text="Enter Admin Password"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="10px"
-            android:gravity="center_horizontal"
+            style="@style/TextViewStyle"
             android:layout_height="wrap_content"
             android:id="@+id/tv2" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Admin Password"
+            android:text="123"
+            android:inputType="textPassword"
             android:id="@+id/edittextadminpassword"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:text="LOGIN"
+            style="@style/ButtonStyle_login"
             android:onClick="adminlogin"
             />
 
     </LinearLayout>
-</ScrollView>
+

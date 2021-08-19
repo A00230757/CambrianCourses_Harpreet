@@ -9,17 +9,17 @@
     <ImageView
         android:id="@+id/imv1professor"
         android:scaleType="fitXY"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="175dp" />
     <LinearLayout
         android:paddingLeft="10dp"
         android:orientation="vertical"
-        android:layout_weight="7"
+        android:layout_weight="6"
         android:layout_width="0dp"
         android:layout_height="wrap_content">
         <TextView
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textColor="#6c0909"
             android:id="@+id/texview_professor_name"
             android:layout_marginBottom="5dp"
@@ -28,14 +28,16 @@
             android:layout_height="wrap_content" />
         <TextView
             android:fontFamily="cursive"
-            android:textSize="22dp"
+            android:textSize="20dp"
             android:textColor="#6c0909"
+            android:layout_marginBottom="5dp"
             android:id="@+id/texview_professor_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             android:textSize="20dp"
             android:textColor="#6c0909"
+            android:layout_marginBottom="5dp"
             android:fontFamily="cursive"
             android:id="@+id/texview_professor_mobile"
             android:layout_width="match_parent"
@@ -44,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
-            android:textStyle="bold"
+            style="@style/ButtonStyle_list"
             android:id="@+id/btdeleteprofessor"/>
     </LinearLayout>
 </LinearLayout>

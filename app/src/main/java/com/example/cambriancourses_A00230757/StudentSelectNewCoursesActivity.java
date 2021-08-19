@@ -60,12 +60,14 @@ public class StudentSelectNewCoursesActivity extends AppCompatActivity {
 
     String course_photopath="/storage/emulated/0/Pictures/Title (30).jpg/d1";
     String selected_department="";
-    String studentid="a00230757";
+    String studentid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_select_new_courses);
         setTitle("Student Select Courses");
+        Intent intent = getIntent();
+        studentid=intent.getStringExtra("studentid");
 
         listview_courses = (ListView) (findViewById(R.id.listview_courses));
 
@@ -150,9 +152,9 @@ public class StudentSelectNewCoursesActivity extends AppCompatActivity {
             ImageView imv1course =(ImageView) (convertView.findViewById(R.id.imv1course));
 
             course c = arraylist_courses.get(position);
-            texview_course_name.setText("Name "+c.name);
-            texview_course_description.setText("Description "+c.description);
-            texview_course_photo.setText("path "+c.path);
+            texview_course_name.setText("Name: "+c.name);
+            texview_course_description.setText("Description: "+c.description);
+            texview_course_photo.setText("path: "+c.path);
             boolean f =test(c.coursecode);
             Toast.makeText(getApplicationContext(),arraylist_selectedcourses.size()+"",Toast.LENGTH_SHORT).show();
             new Thread(new Runnable() {

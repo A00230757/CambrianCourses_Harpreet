@@ -9,15 +9,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/LinearLayoutStyle"
         android:orientation="vertical"
         >
 
         <TextView
-            android:gravity="center"
+            style="@style/TextViewStyle_Info"
             android:id="@+id/tv1"
-            android:textColor="#6c1111"
-            android:textSize="25dp"
-            android:text="Select Courses"
+            android:text="SELECT/UNSELECT COURSES"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

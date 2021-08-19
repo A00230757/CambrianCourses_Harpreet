@@ -3,53 +3,81 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="5dp"
+    style="@style/LinearLayoutStyle"
     tools:context=".StudentEditProfileActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="fitXY"
+        style="@style/ImageViewAdminHome"
         android:id="@+id/imageviewstudentimage"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHANGE PHOTO"
+        android:onClick="gallery"
+        style="@style/ButtonStyle_login"/>
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:id="@+id/textviewstudentid"
-    android:textSize="20dp"
-    android:textStyle="bold"/>
+    style="@style/TextViewStyle"
+    android:id="@+id/textviewstudentid"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:id="@+id/textviewunderdepartment"
-        android:textSize="20dp"
-        android:textStyle="bold"/>
+        style="@style/TextViewStyle"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyle"
+        android:text="Email"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:id="@+id/edittextemail"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyle"
+        android:text="Mobile"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:inputType="number"
         android:id="@+id/edittextmobile"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyle"
+        android:text="Name"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:id="@+id/edittextname"/>
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TextViewStyle"
+        android:text="Password"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:inputType="textPassword"
+        android:id="@+id/edittextpassword"/>
+    <Button
+        style="@style/ButtonStyle_login"
         android:id="@+id/btupdatestudentinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="updateStudentInfo"
-        android:layout_gravity="center_horizontal"
         android:text="UPDATE INFO"/>
 
 </LinearLayout>

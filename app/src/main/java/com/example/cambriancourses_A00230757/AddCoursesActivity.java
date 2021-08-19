@@ -347,6 +347,7 @@ public class AddCoursesActivity extends AppCompatActivity {
                 course_photopath="";
 
                 //fetchCoursesFromFirebase(selected_department);
+                mycustomadapter_courses.notifyDataSetChanged();
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
@@ -406,9 +407,9 @@ public class AddCoursesActivity extends AppCompatActivity {
             ImageView imv1course =(ImageView) (convertView.findViewById(R.id.imv1course));
 
             course d = arraylist_courses.get(position);
-            texview_course_name.setText("Name "+d.name);
-            texview_course_description.setText("Description "+d.description);
-            texview_course_photo.setText("path "+d.path);
+            texview_course_name.setText("Name: "+d.name);
+            texview_course_description.setText("Description: "+d.description);
+            texview_course_photo.setText("path: "+d.path);
 
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
             StorageReference course_photo_reference = storageRef.child("courses"+d.path);

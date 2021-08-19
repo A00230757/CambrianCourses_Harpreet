@@ -9,6 +9,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/LinearLayoutStyle"
         android:orientation="vertical"
         >
 <!--to show already added departments, to add professor in-->
@@ -21,10 +22,8 @@
         </Spinner>
 
         <TextView
-            android:gravity="center"
-            android:textColor="#6c1111"
-            android:textSize="25dp"
-            android:text="Add New Professor"
+            style="@style/TextViewStyle_Info"
+            android:text="ADD NEW PROFESSOR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -50,38 +49,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!--professor image path-->
-        <TextView
-            android:text="Image path"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/edittext_imagepath"
+            android:hint="image path set automatically"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!--buttonto open gallery to choose professor image-->
-        <Button
-            android:onClick="gallery"
-            android:text="Open Gallery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-        <!--button to add professor in firebase database-->
-        <Button
-            android:onClick="add"
-            android:text="Add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <!--buttonto open gallery to choose professor image-->
+            <Button
+                android:onClick="gallery"
+                android:text="Open Gallery"
+                style="@style/ButtonStyle_listmain"
+                android:layout_weight="6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <!--button to add professor in firebase database-->
+            <Button
+                android:onClick="add"
+                android:text="Add"
+                style="@style/ButtonStyle_listmain"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
 
         <TextView
-            android:gravity="center"
             android:id="@+id/tv1"
-            android:textColor="#6c1111"
-            android:textSize="25dp"
-            android:text="List of Professors"
+            style="@style/TextViewStyle_Info"
+            android:text="LIST OF ADDED PROFESSORS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -89,7 +92,7 @@
         <ListView
             android:id="@+id/listview_professor"
             android:layout_width="match_parent"
-            android:layout_height="300dp"></ListView>
+            android:layout_height="250dp"></ListView>
 
 
     </LinearLayout>

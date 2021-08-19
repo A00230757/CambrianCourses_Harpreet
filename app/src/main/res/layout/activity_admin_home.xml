@@ -8,34 +8,38 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:id="@+id/activity_main_interface"
-        android:layout_margin="50px"
-        android:background="#ffccff"
+       style="@style/LinearLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_width="match_parent"
+            style="@style/TextViewStyle_Info"
+            android:layout_height="wrap_content"
+            android:id="@+id/textviewwelcome" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOGOUT"
+            style="@style/ButtonStyle_login"
+            android:onClick="logout"
+            />
+        <TextView
             android:text="ADD Department"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="10px"
-            android:gravity="center_horizontal"
+            style="@style/TextViewStyle_Info"
             android:layout_height="wrap_content"
             android:id="@+id/tv1" />
         <ImageView
-            android:src="@drawable/admin"
+            android:src="@drawable/depticon"
             android:id="@+id/imv1"
             android:onClick="login"
-            android:scaleType="fitXY"
-            android:layout_margin="5px"
+            style="@style/ImageViewAdminHome"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
         <TextView
             android:text=" Add Course"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="10px"
-            android:gravity="center_horizontal"
+            style="@style/TextViewStyle_Info"
             android:layout_height="wrap_content"
             android:id="@+id/tv2" />
         <ImageView
@@ -43,16 +47,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="login"
-            android:layout_margin="5px"
-            android:scaleType="fitXY"
+            style="@style/ImageViewAdminHome"
             android:src="@drawable/professor" />
         <TextView
             android:text="Add Professor"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="20px"
-            android:gravity="center_horizontal"
+            style="@style/TextViewStyle_Info"
             android:layout_height="wrap_content"
             android:id="@+id/tv3" />
         <ImageView
@@ -60,16 +60,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="login"
-            android:layout_margin="5px"
-            android:scaleType="fitXY"
+            style="@style/ImageViewAdminHome"
             android:src="@drawable/student" />
         <TextView
             android:text="ADD Student"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="20px"
-            android:gravity="center_horizontal"
+            style="@style/TextViewStyle_Info"
             android:layout_height="wrap_content"
             android:id="@+id/tv4" />
         <ImageView
@@ -77,8 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="login"
-            android:layout_margin="5px"
-            android:scaleType="fitXY"
+            style="@style/ImageViewAdminHome"
             android:src="@drawable/student" />
     </LinearLayout>
 </ScrollView>

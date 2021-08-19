@@ -39,6 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AddStudentActivity extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class AddStudentActivity extends AppCompatActivity {
     myadapter mycustomadapter_student;
 
     ListView listview_student;
-    EditText edittext_student_id, edittext_student_name,edittext_email,edittext_imagepath,edittext_mobile;
+    EditText edittext_student_id, edittext_student_name,edittext_email,edittext_imagepath,edittext_mobile,edittext_password;
 
     Spinner spinnerdepartment;
     ArrayList<String> arraydepartments = new ArrayList<>();
@@ -70,7 +71,9 @@ public class AddStudentActivity extends AppCompatActivity {
         edittext_student_name = (EditText) (findViewById(R.id.edittext_student_name));
         edittext_email = (EditText) (findViewById(R.id.edittext_email));
         edittext_mobile = (EditText) (findViewById(R.id.edittext_mobile));
+        edittext_password = (EditText) (findViewById(R.id.edittext_password));
         edittext_imagepath = (EditText) (findViewById(R.id.edittext_imagepath));
+
 
         spinnerdepartment = (Spinner) (findViewById(R.id.spinnerdepartment));
         adapter_departments = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arraydepartments);
@@ -94,7 +97,7 @@ public class AddStudentActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_department = arraydepartments.get(position);
                 fetchstudentsFromFirebase(selected_department);
-                Toast.makeText(getApplicationContext(),selected_department,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),selected_department,Toast.LENGTH_SHORT).show();
 
             }
 
@@ -107,7 +110,7 @@ public class AddStudentActivity extends AppCompatActivity {
         listview_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), arraylist_student.get(position).name+" "+arraylist_student.get(position).email, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), arraylist_student.get(position).name+" "+arraylist_student.get(position).email, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -163,7 +166,7 @@ public class AddStudentActivity extends AppCompatActivity {
                     }
 
                 }
-                Toast.makeText(getApplicationContext(),arraylist_student.size()+"",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),arraylist_student.size()+"",Toast.LENGTH_SHORT).show();
                 mycustomadapter_student.notifyDataSetChanged();
             }
             @Override
@@ -239,6 +242,7 @@ public class AddStudentActivity extends AppCompatActivity {
         String name_student = edittext_student_name.getText().toString();
         String email_student = edittext_email.getText().toString();
         String mobile_student =edittext_mobile.getText().toString();
+        String password = edittext_password.getText().toString();
         if (studentid.isEmpty()){
             Toast.makeText(getApplicationContext(),"Enter student id",Toast.LENGTH_SHORT).show();
         }
@@ -251,11 +255,14 @@ public class AddStudentActivity extends AppCompatActivity {
         else if (mobile_student.isEmpty()){
             Toast.makeText(getApplicationContext(),"Enter student mobile number",Toast.LENGTH_SHORT).show();
         }
+        else if (password.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Enter student password",Toast.LENGTH_SHORT).show();
+        }
         else if (student_photopath.isEmpty()){
             Toast.makeText(getApplicationContext(),"Choose student image",Toast.LENGTH_SHORT).show();
         }
         else{
-            student student_object = new student(studentid,name_student,email_student,student_photopath+"/"+studentid,mobile_student,selected_department);
+            student student_object = new student(studentid,name_student,email_student,student_photopath+"/"+studentid,mobile_student,selected_department,password);
             DatabaseReference student_reference = studentref.child(studentid);
             Log.d("MYMESSAGE",student_reference.getKey());
             if(checkDuplicateEntry(studentid)) {
@@ -284,8 +291,10 @@ public class AddStudentActivity extends AppCompatActivity {
                 edittext_email.setText("");
                 edittext_mobile.setText("");
                 edittext_imagepath.setText("");
+                edittext_password.setText("");
                 student_photopath="";
                 //fetchProfessorsFromFirebase(selected_department);
+                mycustomadapter_student.notifyDataSetChanged();
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
@@ -346,21 +355,26 @@ public class AddStudentActivity extends AppCompatActivity {
 
             student p = arraylist_student.get(position);
             Log.d("TTHHGG",p.name+","+p.email+","+p.mobile);
-            texview_student_name.setText("Name "+p.name);
-            texview_student_email.setText("Email "+p.email);
-            texview_student_mobile.setText("Mobile "+p.mobile);
+            texview_student_name.setText("Name: "+p.name);
+            texview_student_email.setText("Email: "+p.email);
+            texview_student_mobile.setText("Mobile: "+p.mobile);
 
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference student_photo_reference = storageRef.child("students"+p.path);
-            student_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-            {
+            new Thread(new Runnable() {
                 @Override
-                public void onSuccess(Uri downloadUrl)
-                {
-                    //do something with downloadurl
-                    Picasso.with(AddStudentActivity.this).load(downloadUrl).resize(200,200).into(imv1student);
+                public void run() {
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                    StorageReference student_photo_reference = storageRef.child("students"+p.path);
+                    student_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                    {
+                        @Override
+                        public void onSuccess(Uri downloadUrl)
+                        {
+                            //do something with downloadurl
+                            Picasso.with(AddStudentActivity.this).load(downloadUrl).resize(200,200).into(imv1student);
+                        }
+                    });
                 }
-            });
+            }).start();
 
             new Thread(new Runnable() {
                 @Override

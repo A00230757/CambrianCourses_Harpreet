@@ -4,62 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
+    style="@style/LinearLayoutStyle"
     android:orientation="vertical"
     tools:context=".SelectedCourseDetailActivity">
     <TextView
-        android:textSize="25dp"
-        android:layout_marginBottom="5dp"
         android:text="Course Detail"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
+        style="@style/TextViewStyle_Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:scaleType="fitXY"
+        style="@style/ImageViewAdminHome"
         android:id="@+id/courseimage"
-        android:layout_margin="5dp"
         />
     <TextView
-        android:textSize="25dp"
-        android:textColor="#6c0909"
         android:id="@+id/textview_course_code"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="cursive"
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textSize="25dp"
-        android:textColor="#6c0909"
         android:id="@+id/textview_course_name"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="cursive"
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textSize="25dp"
-        android:textColor="#6c0909"
         android:id="@+id/textview_course_description"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="cursive"
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textSize="25dp"
-        android:textColor="#6c0909"
         android:id="@+id/textview_course_professor"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="cursive"
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textSize="25dp"
-        android:textColor="#6c0909"
         android:id="@+id/textview_course_underdept"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="cursive"
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
