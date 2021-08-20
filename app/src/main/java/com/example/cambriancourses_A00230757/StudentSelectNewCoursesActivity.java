@@ -45,18 +45,22 @@ import java.util.ArrayList;
 public class StudentSelectNewCoursesActivity extends AppCompatActivity {
 
     ArrayList<course> arraylist_courses = new ArrayList<course>();
+    //arraylist of type course,
+    // which stores course information fetched from realtime firebase databse
     ArrayList<studentselectcourseclass> arraylist_selectedcourses = new ArrayList<studentselectcourseclass>();
-    myadapter mycustomadapter_courses;
+    myadapter mycustomadapter_courses;//customized adapter for courses to store image and other text data of available courses in listview
 
-    ListView listview_courses;
+    ListView listview_courses;//list view to reference t show available courses
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefcourse;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefcourse;// firebase database main reference
     DatabaseReference selectedmainrefcourse;
-    DatabaseReference courseref;
-    DatabaseReference selectedcourseref;
-    FirebaseStorage firebaseStorage;
-    StorageReference mainrefstorage;
+    DatabaseReference courseref;//reference to child available course
+    DatabaseReference selectedcourseref;//reference to child availble courses
+    FirebaseStorage firebaseStorage;//firebase storage instance
+    StorageReference mainrefstorage;//firebase storage reference to child available course photos
+
+
 
     String course_photopath="/storage/emulated/0/Pictures/Title (30).jpg/d1";
     String selected_department="";
@@ -68,23 +72,31 @@ public class StudentSelectNewCoursesActivity extends AppCompatActivity {
         setTitle("Student Select Courses");
         Intent intent = getIntent();
         studentid=intent.getStringExtra("studentid");
+        selected_department=intent.getStringExtra("under_dept");
+        Log.d("MSSGG",selected_department+"  ,oncreate");
 
+        // memory to different views
         listview_courses = (ListView) (findViewById(R.id.listview_courses));
 
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         courseref =mainrefcourse.child("courses");
         selectedmainrefcourse = firebaseDatabase.getReference();
         selectedcourseref =selectedmainrefcourse.child("selectedcourses");
 
+
+
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
 
-        mycustomadapter_courses = new myadapter();
-        listview_courses.setAdapter(mycustomadapter_courses);
+        mycustomadapter_courses = new myadapter();//memory to custom adapter
+        listview_courses.setAdapter(mycustomadapter_courses);//adapter set to list view
+
         fetchCoursesFromFirebase("");
         alreadySelectedOrNot();
 
+        //click listener on list view
         listview_courses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -93,6 +105,9 @@ public class StudentSelectNewCoursesActivity extends AppCompatActivity {
         });
     }
 
+
+
+    //to fetvch available courses from firebase
     public void fetchCoursesFromFirebase(String department_selected){
         arraylist_courses.clear();
         courseref.addValueEventListener(new ValueEventListener() {
@@ -104,9 +119,10 @@ public class StudentSelectNewCoursesActivity extends AppCompatActivity {
                 {
                     course coursetemp = singlesnapshot.getValue(course.class);
                     try {
-                       // if(coursetemp.under_dept.equals(department_selected)){
+                        Log.d("MSSGG",coursetemp.under_dept+","+selected_department+"  ,tttt");
+                       if(coursetemp.under_dept.equals(selected_department)){
                             arraylist_courses.add(coursetemp);
-                        //}
+                        }
                     }
                     catch (Exception ex){
                         ex.printStackTrace();
@@ -121,6 +137,7 @@ public class StudentSelectNewCoursesActivity extends AppCompatActivity {
         });
     }
 
+    //this is custom adapter class to show array list data of availaable courses in list view
     class myadapter extends BaseAdapter
     {
         @Override
@@ -243,6 +260,8 @@ if(f){
 
     }
 
+
+    //to chk whether course is already selected or not, to show check box already checked
     public void  alreadySelectedOrNot(){
         arraylist_selectedcourses.clear();
         selectedcourseref.addValueEventListener(new ValueEventListener() {
@@ -268,6 +287,7 @@ if(f){
         });
     }
 
+//to chk whetehr course already selected or not
     public boolean test(String cc){
         boolean v= false;
         for (int i =0 ; i<arraylist_selectedcourses.size();i++){

@@ -21,12 +21,13 @@ import com.squareup.picasso.Picasso;
 
 public class SelectedCourseDetailActivity extends AppCompatActivity {
 
+    //different views reference to store detail and image
     TextView textview_course_code ,textview_course_name,textview_course_description,textview_course_professor,textview_course_underdept;
     ImageView courseimage;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefcourse;
-    DatabaseReference courseref;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefcourse;// firebase database main reference
+    DatabaseReference courseref;//reference to child selected course
 
 
 
@@ -35,7 +36,7 @@ public class SelectedCourseDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_course_detail);
 
-
+//memory to views
         textview_course_code = (TextView)(findViewById(R.id.textview_course_code));
         textview_course_name = (TextView)(findViewById(R.id.textview_course_name));
         textview_course_description = (TextView)(findViewById(R.id.textview_course_description));
@@ -47,12 +48,13 @@ public class SelectedCourseDetailActivity extends AppCompatActivity {
         String coursecode = intent.getStringExtra("coursecode");
         String studentid = intent.getStringExtra("studentid");
 
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         courseref = mainrefcourse.child("courses").child(coursecode);
 
 
-
+//fetch course detail
         fetchCoursesFromFirebase();
 
     }
@@ -64,13 +66,15 @@ public class SelectedCourseDetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 course obj = dataSnapshot.getValue(course.class);
+
+                //detail set to views
                 textview_course_code.setText("course code: "+obj.coursecode);
                 textview_course_name.setText("course name:"+obj.name);
                 textview_course_description.setText("course description:"+obj.description);
                 textview_course_professor.setText("professor:"+obj.professor);
                 textview_course_underdept.setText("under Dept:"+obj.under_dept);
                 String imagepath=obj.path;
-                setImage(imagepath);
+                setImage(imagepath);//set image on image view
             }
 
             @Override
@@ -81,6 +85,8 @@ public class SelectedCourseDetailActivity extends AppCompatActivity {
 
     }
 
+
+    //set image on image view from firebase
     public void setImage(String path){
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference course_photo_reference = storageRef.child("courses"+path);

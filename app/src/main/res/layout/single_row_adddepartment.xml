@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--single linear layout to show each department detail in list view -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:padding="15dp"
@@ -6,33 +7,39 @@
     android:weightSum="10"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <!-- image view to show department image-->
     <ImageView
         android:id="@+id/imv1dept"
         android:scaleType="fitXY"
         android:layout_weight="4"
         android:layout_width="0dp"
         android:layout_height="185dp" />
+    <!--linear layout with textviews to show department details -->
     <LinearLayout
         android:paddingLeft="10dp"
         android:orientation="vertical"
         android:layout_weight="6"
         android:layout_width="0dp"
         android:layout_height="wrap_content">
+        <!--textview to show department name -->
         <TextView
             style="@style/TextViewStyle_SingleLayout"
             android:id="@+id/texview_department_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <!--textview to show department description -->
         <TextView
            style="@style/TextViewStyle_SingleLayout"
             android:id="@+id/texview_department_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <!-- textview to show image path-->
         <TextView
             style="@style/TextViewStyle_SingleLayout"
             android:id="@+id/texview_department_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <!-- linear layout to delete and edit department buttons-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

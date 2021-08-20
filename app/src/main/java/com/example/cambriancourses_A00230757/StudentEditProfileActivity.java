@@ -34,6 +34,8 @@ import java.io.File;
 
 public class StudentEditProfileActivity extends AppCompatActivity {
 
+
+    //variables declartion to store student ifi
     String studentid="";
     String path="";
     String department ="";
@@ -42,15 +44,17 @@ public class StudentEditProfileActivity extends AppCompatActivity {
 
     String newpath="";
 
+
+    //reference to different views to stor student detail
     TextView textviewstudentid,textviewunderdepartment;
     EditText edittextemail,edittextmobile,edittextname,edittextpassword;
     ImageView imageviewstudentimage;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefstudent;
-    DatabaseReference studentref;
-    FirebaseStorage firebaseStorage;
-    StorageReference mainrefstorage;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefstudent;// firebase database main reference
+    DatabaseReference studentref;//reference to child students
+    FirebaseStorage firebaseStorage;//firebase storage instance
+    StorageReference mainrefstorage;//firebase storage reference to child student photos
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,8 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         setTitle("STUDENT EDIT PROFILE");
         Intent intent = getIntent();
         studentid=intent.getStringExtra("studentid");
+
+        //memory to views
         textviewstudentid = (TextView)(findViewById(R.id.textviewstudentid));
         textviewunderdepartment = (TextView)(findViewById(R.id.textviewunderdepartment));
         edittextemail = (EditText) (findViewById(R.id.edittextemail));
@@ -67,16 +73,17 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         edittextpassword = (EditText) (findViewById(R.id.edittextpassword));
         imageviewstudentimage =(ImageView)(findViewById(R.id.imageviewstudentimage));
 
-
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefstudent = firebaseDatabase.getReference();
         studentref =mainrefstudent.child("students");
 
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
-        fetchStudentData();
+        fetchStudentData();//fetch student data
     }
 
+    //fetch student data from firebase
     public void fetchStudentData()
     {
         try{
@@ -87,6 +94,8 @@ public class StudentEditProfileActivity extends AppCompatActivity {
                     // Extract value from dataSnapShot and Convert it to Java Object
                     student stTemp = dataSnapshot.getValue(student.class);
 
+
+                    //set data to views
                     textviewstudentid.setText("ID : "+stTemp.studentid);
                     textviewunderdepartment.setText("Dept : "+ stTemp.under_dept);
                    edittextemail.setText(stTemp.email);
@@ -114,6 +123,7 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         }
     }
 
+    //function to update student info
     public void updateStudentInfo(View v)
     {
         try{
@@ -150,13 +160,14 @@ public class StudentEditProfileActivity extends AppCompatActivity {
     }
 
 
-
+    //to open gallery to choose image for student
     public void gallery(View view)
     {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent,91);
     }
 
+    //the image choosed from gallery is available through this function i.e., on activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,6 +187,8 @@ public class StudentEditProfileActivity extends AppCompatActivity {
             uploadlogic(newpath);
         }
     }
+
+    //upload student photo to firebase storage
     public void uploadlogic(String newpath)
     {
         File localfile=new File(newpath);
@@ -208,6 +221,7 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         });
     }
 
+    //delete previous photo from firebase storage
     public void deletefile()
     {
         StorageReference file11 = mainrefstorage.child("students"+path);
@@ -219,6 +233,8 @@ public class StudentEditProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    //this function give us absolute path of image selected from gallery
     public static String getPath(Context context, Uri uri ) {
         String result = null;
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -236,6 +252,8 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         return result;
     }
 
+
+    //this function set image of student on image view
     public void setImage(String path){
         StorageReference student_photo_reference = mainrefstorage.child(path);
         student_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()

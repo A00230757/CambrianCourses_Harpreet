@@ -1,5 +1,6 @@
 package com.example.cambriancourses_A00230757;
 
+//professor class with various data members and constructors
 public class professor {
     public String name;
     public String email;

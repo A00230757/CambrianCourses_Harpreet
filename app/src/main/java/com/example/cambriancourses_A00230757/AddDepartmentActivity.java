@@ -148,7 +148,7 @@ public class AddDepartmentActivity extends AppCompatActivity {
         }
         else if(resultCode==RESULT_OK)//this runs for gallery result
         {
-           Uri uri = data.getData();//get image uri
+           Uri uri = data.getData();//this runs for gallery result
             Uri selectedImageUri = data.getData();
             String selectedImagePath = getPath(getApplicationContext(),selectedImageUri);//get selected image path from uri, absolute path in real device
             System.out.println("Image Path : " + selectedImagePath);

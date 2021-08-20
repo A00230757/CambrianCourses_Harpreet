@@ -18,13 +18,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class StudentLoginActivity extends AppCompatActivity {
 
-    EditText edittextstudentid, edittextstudentpassword;
+    EditText edittextstudentid, edittextstudentpassword;//edit text to input student name and password
 String studentid = "";
 String studentpassword = "";
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefcourse;
-    DatabaseReference studentsref;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefcourse;// firebase database main reference
+    DatabaseReference studentsref;//reference to child students
     String id_student="";
     String password_student ="";
     @Override
@@ -32,15 +32,17 @@ String studentpassword = "";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_login);
         setTitle("STUDENT LOGIN");
+        //memory to edittect views
         edittextstudentid = (EditText) (findViewById(R.id.edittextstudentid));
         edittextstudentpassword= (EditText) (findViewById(R.id.edittextstudentpassword));
 
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         studentsref =mainrefcourse.child("students");
         fetchStudentDataFromFirebase();
     }
-    public void login(View v ) {
+    public void login(View v ) {//chk credentials match or not from firebase to give login access
         studentid = edittextstudentid.getText().toString();
         studentpassword = edittextstudentpassword.getText().toString();
         Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_SHORT);
@@ -77,6 +79,7 @@ String studentpassword = "";
 
     }
 
+    //fetch student data from firebase
     public void fetchStudentDataFromFirebase(){
         try{
             studentsref.addValueEventListener(new ValueEventListener() {

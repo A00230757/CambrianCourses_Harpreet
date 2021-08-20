@@ -26,15 +26,15 @@ import java.util.ArrayList;
 public class StudentViewSelectedCoursesActivity extends AppCompatActivity {
 
 
-    String studentid = "";
-    ArrayList<selectedcourse> arraylist_courses = new ArrayList<selectedcourse>();
-    myadapter mycustomadapter_courses;
+    String studentid = "";//to store student id
+    ArrayList<selectedcourse> arraylist_courses = new ArrayList<selectedcourse>();//array list  to store selected courses
+    myadapter mycustomadapter_courses;//custom adapter for courses list view
 
-    ListView listview_courses;
+    ListView listview_courses;//listview to show courses
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefcourse;
-    DatabaseReference courseref;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefcourse;// firebase database main reference
+    DatabaseReference courseref;//reference to child available course
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +43,19 @@ public class StudentViewSelectedCoursesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         studentid=intent.getStringExtra("studentid");
 
+        // memory to different views
         listview_courses = (ListView) (findViewById(R.id.listview_selectedcourses));
 
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         courseref = mainrefcourse.child("selectedcourses");
-mycustomadapter_courses = new myadapter();
+        mycustomadapter_courses = new myadapter();
         listview_courses.setAdapter(mycustomadapter_courses);
         fetchCoursesFromFirebase();
 
+
+        //click listener to list view
         listview_courses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,6 +64,8 @@ mycustomadapter_courses = new myadapter();
         });
     }
 
+
+    //fetch selected courses from firebase
     public void fetchCoursesFromFirebase() {
         arraylist_courses.clear();
         courseref.addValueEventListener(new ValueEventListener() {
@@ -88,7 +94,7 @@ mycustomadapter_courses = new myadapter();
         });
     }
 
-
+    //this is custom adapter class to show array list data of selected courses in list view
     class myadapter extends BaseAdapter {
         @Override
         public int getCount() {

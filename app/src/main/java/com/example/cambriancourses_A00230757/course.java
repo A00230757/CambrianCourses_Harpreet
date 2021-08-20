@@ -1,5 +1,7 @@
 package com.example.cambriancourses_A00230757;
 
+
+//course class with data members and constructors which suggest their purpose from name
 public class course {
     public String coursecode;
     public String name;

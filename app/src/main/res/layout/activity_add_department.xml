@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--scrollview to add scrolling in  activity-->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <!-- Here you put the rest of your current view-->
 
+<!--main linear layout-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,35 +13,37 @@
     style="@style/LinearLayoutStyle"
     android:orientation="vertical"
     >
+    <!--text view to show message add department-->
     <TextView
         style="@style/TextViewStyle_Info"
         android:text="ADD NEW DEPARTMENT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <!--edit text to input department name -->
     <EditText
         android:hint="enter department name"
         android:id="@+id/edittext_department_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <!-- edit text to input department description-->
     <EditText
         android:id="@+id/edittext_description"
         android:hint="enter department description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <!--edit text where image path loaded from gallery is set-->
     <EditText
         android:id="@+id/edittext_imagepath"
         android:hint="image path automatically set here"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <!--linear layout with horizontal orientation for two buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:weightSum="10"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
+        <!-- button to open gallery-->
         <Button
             android:onClick="gallery"
             android:text="Open Gallery"
@@ -48,7 +51,7 @@
             android:layout_weight="6"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
-
+        <!-- button to add department in database-->
         <Button
             android:onClick="add"
             android:text="Add"
@@ -58,14 +61,14 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-
+    <!-- text view of to show message added departments-->
     <TextView
         android:id="@+id/tv1"
         style="@style/TextViewStyle_Info"
         android:text="LIST OF ADDED DEPARTMENTS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <!-- list view to show list of already added departments-->
     <ListView
         android:id="@+id/listview_departments"
         android:layout_width="match_parent"

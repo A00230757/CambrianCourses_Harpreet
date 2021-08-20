@@ -18,13 +18,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AdminLoginActivity extends AppCompatActivity {
 
-    EditText edittextadminid, edittextadminpassword;
+    EditText edittextadminid, edittextadminpassword;//input admin login credentials
 String adminid = "";
 String adminpassword = "";
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefcourse;
-    DatabaseReference adminsref;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefcourse;// firebase database main reference
+    DatabaseReference adminsref;//reference to child admins
 String id_admin="";
 String password_admin ="";
 
@@ -36,11 +36,14 @@ String password_admin ="";
         edittextadminid = (EditText) (findViewById(R.id.edittextadminid));
         edittextadminpassword= (EditText) (findViewById(R.id.edittextadminpassword));
 
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         adminsref =mainrefcourse.child("admins");
-        fetchAdminDataFromFirebase();
+        fetchAdminDataFromFirebase();//fetch admin data from firebase
     }
+
+    //chk credentials match or not from firebase to give login access
     public void adminlogin(View v ) {
         adminid = edittextadminid.getText().toString();
         adminpassword = edittextadminpassword.getText().toString();
@@ -77,6 +80,7 @@ String password_admin ="";
         }
         }
 
+    //fetch admin data from firebase
         public void fetchAdminDataFromFirebase(){
         try{
 

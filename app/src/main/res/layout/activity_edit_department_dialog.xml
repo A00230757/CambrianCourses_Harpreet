@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--here textview,edittext are used to show department details
+ which are -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,29 +9,34 @@
     android:orientation="vertical"
     style="@style/LinearLayoutStyle"
     tools:context=".EditDepartmentDialogActivity">
+    <!-- textview update department-->
     <TextView
         android:text="UPDATE DEPARTMENT"
         style="@style/TextViewStyle_Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <!-- edit text department name, already filled when activity loads-->
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/EditTextColor_Dialog"
         android:id="@+id/edittextdepartmentname"
         />
+    <!-- edit text department description, already filled when activity loads -->
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/EditTextColor_Dialog"
         android:id="@+id/edittextdepartmentdescription"
         />
+<!--    image view to show department image-->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:id="@+id/departmentimage"
         style="@style/ImageViewAdminHome"
         />
+    <!--    button to change photo-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +48,7 @@
         android:weightSum="10"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
+        <!--    button to update department details in database-->
         <Button
             android:text="UPDATE"
             android:onClick="updateDepartment"
@@ -48,7 +56,7 @@
             android:layout_weight="6"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
-
+        <!--    button to close dialog activity-->
         <Button
             android:text="CANCEL"
             android:onClick="disableDialog"

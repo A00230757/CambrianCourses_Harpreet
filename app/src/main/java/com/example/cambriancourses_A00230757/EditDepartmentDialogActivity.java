@@ -29,12 +29,15 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 
 public class EditDepartmentDialogActivity extends AppCompatActivity {
-    ImageView departmentimage;
-    EditText edittextdepartmentname,edittextdepartmentdescription;
+    ImageView departmentimage;//image view reference to show department image
+    EditText edittextdepartmentname,edittextdepartmentdescription;//edittext reference
+    // for department name , description
 
-    String name="",description="",path="";
+    String name="",description="",path="";//variables to store department name, description and path
 
-    String newpath="";
+    String newpath="";//in case image update new path is stored in this variable
+
+    //firebase connections reference
     FirebaseDatabase firebaseDatabase;
     DatabaseReference mainrefdepartment;
     DatabaseReference departmentref;
@@ -44,11 +47,12 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_department_dialog);
-
+//memory to varios views
         departmentimage = (ImageView)(findViewById(R.id.departmentimage));
         edittextdepartmentname =(EditText)(findViewById(R.id.edittextdepartmentname));
         edittextdepartmentdescription =(EditText)(findViewById(R.id.edittextdepartmentdescription));
 
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefdepartment = firebaseDatabase.getReference();
         departmentref =mainrefdepartment.child("departments");
@@ -56,28 +60,32 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
 
+        //get intent to get data passed from activity on which dialog is open
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         description = intent.getStringExtra("description");
         path = intent.getStringExtra("path");
         //Toast.makeText(getApplicationContext(),name,Toast.LENGTH_SHORT).show();
+
+        //initialize all the details of department on edit texts
         edittextdepartmentname.setText(name);
         edittextdepartmentname.setEnabled(false);
         edittextdepartmentdescription.setText(description);
 
-    setImage();
+    setImage();//this functiona set image on image view from firebase storage
     }
 
     public  void disableDialog(View view){
        finish();
-    }
+    }//function to close dialog activity
 
-    public void gallery(View view)
+    public void gallery(View view)//function to open gallery
     {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent,91);
     }
 
+    //the image choosed from gallery is available through this function i.e., on activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -86,18 +94,18 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
         {
             Bitmap bmp  = (Bitmap) data.getExtras().get("data");
         }
-        else if(resultCode==RESULT_OK)
+        else if(resultCode==RESULT_OK)//this runs for gallery result
         {
-            Uri uri = data.getData();
+            Uri uri = data.getData();//this runs for gallery result
             Uri selectedImageUri = data.getData();
-            String selectedImagePath = getPath(getApplicationContext(),selectedImageUri);
+            String selectedImagePath = getPath(getApplicationContext(),selectedImageUri);//get selected image path from uri, absolute path in real device
             System.out.println("Image Path : " + selectedImagePath);
-            newpath=selectedImagePath;
-           deletefile();
-           uploadlogic(newpath);
+            newpath=selectedImagePath;//set this path to global new path  variable
+           deletefile();//this function delete previous photo from database
+           uploadlogic(newpath);//this function upload image on realtime firebase database
         }
     }
-    public void uploadlogic(String newpath)
+    public void uploadlogic(String newpath)//this function upload department image to firebase storage
     {
         File localfile=new File(newpath);
         path=newpath+"/"+name;
@@ -130,7 +138,7 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
         });
     }
 
-    public void deletefile()
+    public void deletefile()//this function delete previous image on storage
     {
         StorageReference file11 = mainrefstorage.child("departments"+path);
         Log.d("MSSGG","log departments"+path+"/"+name);
@@ -141,6 +149,7 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
             }
         });
     }
+    //this function get absolute path of image from uri
     public static String getPath(Context context, Uri uri ) {
         String result = null;
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -158,7 +167,7 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
         return result;
     }
 
-
+//this function update department details in databse
     public  void updateDepartment(View view){
         description = edittextdepartmentdescription.getText().toString();
         if(description.isEmpty()){
@@ -172,6 +181,7 @@ public class EditDepartmentDialogActivity extends AppCompatActivity {
         }
     }
 
+    //to load image on imageview from firebase storage
     public void setImage(){
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference department_photo_reference = storageRef.child("departments"+path);

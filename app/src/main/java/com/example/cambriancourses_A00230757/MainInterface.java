@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class MainInterface extends AppCompatActivity {
 
-    ImageView imv1, imv2;
+    ImageView imv1, imv2;//image to show admin or atudent icon
 
     int a[] = {R.drawable.admin,  R.drawable.student};
     @Override
@@ -23,7 +23,7 @@ public class MainInterface extends AppCompatActivity {
         imv1.setImageResource(a[0]);
         imv2.setImageResource(a[1]);
     }
-    public void login(View v ) {
+    public void login(View v ) {//chk whether to go to student or admin login
 if( v.getId() == R.id.imv1){
     Intent in =new Intent(this,AdminLoginActivity.class);
     startActivity(in);

@@ -20,13 +20,14 @@
         <!--        <item name="materialButtonStyle">@style/ButtonStyle_login</item>-->
     </style>
 
+    <!--    style login buttons-->
     <style name="ButtonStyle_login" parent="@android:style/Widget.Button">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
-
+    <!--    stylebuttons listview-->
     <style name="ButtonStyle_listmain" parent="@android:style/Widget.Button">
         <item name="android:textColor">#ffffff</item>
         <item name="android:background">#6c1111</item>
@@ -34,6 +35,7 @@
         <item name="android:textSize">20dp</item>
         <item name="android:layout_margin">2dp</item>
     </style>
+    <!--    style  buttons list-->
     <style name="ButtonStyle_list" parent="@android:style/Widget.Button">
         <item name="android:textColor">#ffffff</item>
         <item name="android:background">#6c1111</item>
@@ -42,19 +44,19 @@
         <item name="android:layout_margin">2dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
-
+    <!--    style linear layput-->
     <style name="LinearLayoutStyle" >
         <item name="android:layout_margin">5dp</item>
         <item name="android:background">#000000</item>
     </style>
-
+    <!--    style tectview -->
     <style name="TextViewStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20dp</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
-
+    <!--    style tectview info-->
     <style name="TextViewStyle_Info">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20dp</item>
@@ -62,22 +64,27 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+    <!--    style tectview splash-->
     <style name="TextViewStyle_Splash">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">30dp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+    <!--    style tectview splash name developer -->
     <style name="TextViewStyle_Splash_Name">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+    <!--    style tectview single layout-->
     <style name="TextViewStyle_SingleLayout">
         <item name="android:fontFamily">cursive</item>
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+
+    <!--    style edit text dialog-->
     <style name="EditTextColor_Dialog">
         <item name="android:textColor">#ffffff</item>
     </style>
@@ -85,7 +92,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
+    <!--    style image view admin home-->
     <style name="ImageViewAdminHome">
         <item name="android:scaleType">fitXY</item>
         <item name="android:layout_margin">5px</item>

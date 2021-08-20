@@ -12,7 +12,7 @@
         style="@style/LinearLayoutStyle"
         android:orientation="vertical"
         >
-
+<!--spinner to show departments-->
         <Spinner
             android:id="@+id/spinnerdepartment"
             android:textColor="#000000"
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </Spinner>
+        <!--spinner to show profssors-->
         <Spinner
             android:id="@+id/spinnerprofessor"
             android:textColor="#000000"
@@ -27,30 +28,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </Spinner>
-
+        <!--textview department info-->
         <TextView
             style="@style/TextViewStyle_Info"
             android:text="ADD NEW DEPARTMENT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <!--edit text course code-->
         <EditText
             android:hint="enter course code"
             android:id="@+id/edittext_course_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
+        <!--edit txt course name-->
         <EditText
             android:hint="enter course name"
             android:id="@+id/edittext_course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
+        <!--edit text department description-->
         <EditText
             android:hint="enter description"
             android:id="@+id/edittext_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
+        <!--edit text image path-->
         <EditText
             android:hint="image path"
             android:id="@+id/edittext_imagepath"
@@ -61,6 +63,7 @@
             android:weightSum="10"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
+            <!--button to open gallery-->
             <Button
                 android:onClick="gallery"
                 android:text="Open Gallery"
@@ -68,7 +71,7 @@
                 android:layout_weight="6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
-
+            <!--button to add course-->
             <Button
                 android:onClick="add"
                 android:text="Add"
@@ -86,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-
+        <!--list view to show previous coursez-->
         <ListView
             android:id="@+id/listview_courses"
             android:layout_width="match_parent"

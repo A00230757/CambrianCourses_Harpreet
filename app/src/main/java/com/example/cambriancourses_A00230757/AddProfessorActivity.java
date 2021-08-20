@@ -42,21 +42,22 @@ import java.util.ArrayList;
 
 public class AddProfessorActivity extends AppCompatActivity {
 
-    ArrayList<professor> arraylist_professor = new ArrayList<professor>();
-    myadapter mycustomadapter_professor;
+    ArrayList<professor> arraylist_professor = new ArrayList<professor>();//array list of type professor
+    // to store professor data
+    myadapter mycustomadapter_professor;//customized adapter for professors to store image and other text data of professor in listview
 
-    ListView listview_professor;
-    EditText edittext_professor_name,edittext_email,edittext_imagepath,edittext_mobile;
+    ListView listview_professor;//listview reference to display professors
+    EditText edittext_professor_name,edittext_email,edittext_imagepath,edittext_mobile;//edittexts to input different professor data
 
     Spinner spinnerdepartment;
     ArrayList<String> arraydepartments = new ArrayList<>();
     ArrayAdapter<String> adapter_departments ;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefprofessor;
-    DatabaseReference professorref;
-    FirebaseStorage firebaseStorage;
-    StorageReference mainrefstorage;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefprofessor;// firebase database main reference
+    DatabaseReference professorref;//reference to child professors
+    FirebaseStorage firebaseStorage;//firebase storage instance
+    StorageReference mainrefstorage;//firebase storage reference to child professor photos
 
     String professor_photopath="";
     String selected_department="";
@@ -65,6 +66,7 @@ public class AddProfessorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_professor);
 
+        // memory to different views
         listview_professor = (ListView) (findViewById(R.id.listview_professor));
         edittext_professor_name = (EditText) (findViewById(R.id.edittext_professor_name));
         edittext_email = (EditText) (findViewById(R.id.edittext_email));
@@ -76,7 +78,7 @@ public class AddProfessorActivity extends AppCompatActivity {
         spinnerdepartment.setAdapter(adapter_departments);
 
 
-
+        //objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefprofessor = firebaseDatabase.getReference();
         professorref =mainrefprofessor.child("professors");
@@ -84,9 +86,10 @@ public class AddProfessorActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
 
+        //custom adapter object
         mycustomadapter_professor= new myadapter();
         listview_professor.setAdapter(mycustomadapter_professor);
-        fetchDepartmentsFromFirebase();
+        fetchDepartmentsFromFirebase();//this function is called to fetch already added departments from firebase and store data in array list.
 
         spinnerdepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -142,16 +145,17 @@ public class AddProfessorActivity extends AppCompatActivity {
         });
     }
 
+    // function to fetch already added professorss from firebase and store data in array list.
     public void fetchProfessorsFromFirebase(String department_selected){
-        arraylist_professor.clear();
+        arraylist_professor.clear();//clear all elements of array list before store data
         professorref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arraylist_professor.clear();
                 //Log.d("MYESSAGE",dataSnapshot.toString());
-                for(DataSnapshot  singlesnapshot : dataSnapshot.getChildren())
+                for(DataSnapshot  singlesnapshot : dataSnapshot.getChildren())//a lop which runs and give one professor data object at a time
                 {
-                    professor professortemp = singlesnapshot.getValue(professor.class);
+                    professor professortemp = singlesnapshot.getValue(professor.class);//one professor data stored in professor class
                     try {
                         if(professortemp.under_dept.equals(department_selected)){
                             arraylist_professor.add(professortemp);
@@ -163,7 +167,7 @@ public class AddProfessorActivity extends AppCompatActivity {
 
                 }
                 Toast.makeText(getApplicationContext(),arraylist_professor.size()+"",Toast.LENGTH_SHORT).show();
-                mycustomadapter_professor.notifyDataSetChanged();
+                mycustomadapter_professor.notifyDataSetChanged();// custom datapter refereshed to show show latest data in listview
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -172,6 +176,8 @@ public class AddProfessorActivity extends AppCompatActivity {
         });
     }
 
+    //while adding new department this function checks
+    // whether professor with same email already exists or not in database
     public boolean checkDuplicateEntry (String professoremail){
         boolean flag = true;
         for(int i=0; i<arraylist_professor.size(); i++) {
@@ -190,12 +196,14 @@ public class AddProfessorActivity extends AppCompatActivity {
         Intent in  = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(in,90);
     }
+    //to open gallery to choose image for professor
     public void gallery(View view)
     {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent,91);
     }
 
+    //the image choosed from gallery is available through this function i.e., on activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -216,6 +224,7 @@ public class AddProfessorActivity extends AppCompatActivity {
                 Log.d("MYMESSAGE",selectedImagePath);
         }
     }
+    //this function give us absolute path of image selected from gallery
     public static String getPath( Context context, Uri uri ) {
         String result = null;
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -232,11 +241,15 @@ public class AddProfessorActivity extends AppCompatActivity {
         }
         return result;
     }
+
+    //this function add new professor data to firebase realtime database after checking whether data is valid or not.
     public void add(View view)
     {
         String name_professor = edittext_professor_name.getText().toString();
         String email_professor = edittext_email.getText().toString();
         String mobile_professor =edittext_mobile.getText().toString();
+
+        //here data is stored in variable and checked for empty or not
         if (name_professor.isEmpty()){
             Toast.makeText(getApplicationContext(),"Enter professor name",Toast.LENGTH_SHORT).show();
         }
@@ -249,13 +262,15 @@ public class AddProfessorActivity extends AppCompatActivity {
         else if (professor_photopath.isEmpty()){
             Toast.makeText(getApplicationContext(),"Choose professor image",Toast.LENGTH_SHORT).show();
         }
-        else{
+        else{//this else runs if everything is ok
+
+            //we can store object of a class directly to firebase database, so here an object of prodessor class is set
             professor professor_object = new professor(name_professor,email_professor,professor_photopath+"/"+name_professor,mobile_professor,selected_department);
             DatabaseReference professor_reference = professorref.child(mobile_professor);
             Log.d("MYMESSAGE",professor_reference.getKey());
             if(checkDuplicateEntry(mobile_professor)) {
                 professor_reference.setValue(professor_object);
-                uploadlogic(professor_photopath , name_professor);
+                uploadlogic(professor_photopath , name_professor);//this function upload image to firebase storage
             }
             else{
                 Toast.makeText(getApplicationContext(),"professor with same mobile number in this department already exists",Toast.LENGTH_SHORT).show();
@@ -263,7 +278,7 @@ public class AddProfessorActivity extends AppCompatActivity {
         }
     }
 
-    public void uploadlogic(String path , String professorname)
+    public void uploadlogic(String path , String professorname)//this function read image from phone memoery and upload it into firebase storage
     {
         File localfile=new File(path);
         final long uploadfilesize = localfile.length();
@@ -280,7 +295,7 @@ public class AddProfessorActivity extends AppCompatActivity {
                 edittext_imagepath.setText("");
                 professor_photopath="";
                 //fetchProfessorsFromFirebase(selected_department);
-                mycustomadapter_professor.notifyDataSetChanged();
+                mycustomadapter_professor.notifyDataSetChanged();//adapter is refreshed to show newly added professor
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
@@ -297,7 +312,8 @@ public class AddProfessorActivity extends AppCompatActivity {
             }
         });
     }
-
+    //this function delete professor photo datafrom firebase storage when admin delete a professor from the list
+    //to save memory on firabase storage
     public void deletefile(String path)
     {
         StorageReference file11 = mainrefstorage.child("professors/"+path);
@@ -308,7 +324,7 @@ public class AddProfessorActivity extends AppCompatActivity {
             }
         });
     }
-
+    //this is custom adapter class to show array list data of professors in list view
     class myadapter extends BaseAdapter
     {
         @Override

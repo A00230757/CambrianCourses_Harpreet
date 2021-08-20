@@ -44,20 +44,26 @@ import java.util.Random;
 public class AddStudentActivity extends AppCompatActivity {
 
     ArrayList<student> arraylist_student = new ArrayList<student>();
+    //arraylist of type student,
+    // which stores student information fetched from realtime firebase databse
+
+    //customized adapter for students to store image and other text data of student in listview
     myadapter mycustomadapter_student;
 
-    ListView listview_student;
+    ListView listview_student;//listview reference to display students
     EditText edittext_student_id, edittext_student_name,edittext_email,edittext_imagepath,edittext_mobile,edittext_password;
+//edittexts to input different student data
 
-    Spinner spinnerdepartment;
-    ArrayList<String> arraydepartments = new ArrayList<>();
-    ArrayAdapter<String> adapter_departments ;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefstudent;
-    DatabaseReference studentref;
-    FirebaseStorage firebaseStorage;
-    StorageReference mainrefstorage;
+    Spinner spinnerdepartment;//spinner to show already added departments
+    ArrayList<String> arraydepartments = new ArrayList<>();//array list departments
+    ArrayAdapter<String> adapter_departments ;//simple adapter for departments spinner
+
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefstudent;// firebase database main reference
+    DatabaseReference studentref;//reference to child students
+    FirebaseStorage firebaseStorage;//firebase storage instance
+    StorageReference mainrefstorage;//firebase storage reference to child student photos
 
     String student_photopath="";
     String selected_department="";
@@ -66,6 +72,7 @@ public class AddStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
 
+        // memory to different views
         listview_student = (ListView) (findViewById(R.id.listview_student));
         edittext_student_id = (EditText) (findViewById(R.id.edittext_student_id));
         edittext_student_name = (EditText) (findViewById(R.id.edittext_student_name));
@@ -80,7 +87,7 @@ public class AddStudentActivity extends AppCompatActivity {
         spinnerdepartment.setAdapter(adapter_departments);
 
 
-
+//objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefstudent = firebaseDatabase.getReference();
         studentref =mainrefstudent.child("students");
@@ -88,9 +95,10 @@ public class AddStudentActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
 
+        //custom adapter object
         mycustomadapter_student= new myadapter();
-        listview_student.setAdapter(mycustomadapter_student);
-        fetchDepartmentsFromFirebase();
+        listview_student.setAdapter(mycustomadapter_student);//adapter set to list view
+        fetchDepartmentsFromFirebase();//this function is called to fetch already added students from firebase and store data in array list.
 
         spinnerdepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -146,6 +154,7 @@ public class AddStudentActivity extends AppCompatActivity {
         });
     }
 
+    // function to fetch already added students from firebase and store data in array list.
     public void fetchstudentsFromFirebase(String department_selected){
         arraylist_student.clear();
         studentref.addValueEventListener(new ValueEventListener() {
@@ -167,7 +176,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
                 }
                 //Toast.makeText(getApplicationContext(),arraylist_student.size()+"",Toast.LENGTH_SHORT).show();
-                mycustomadapter_student.notifyDataSetChanged();
+                mycustomadapter_student.notifyDataSetChanged();// custom datapter refereshed to show show latest data in listview
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -176,6 +185,8 @@ public class AddStudentActivity extends AppCompatActivity {
         });
     }
 
+    //while adding new student this function checks
+    // whether student with same id already exists or not in database
     public boolean checkDuplicateEntry (String studentid){
         boolean flag = true;
         for(int i=0; i<arraylist_student.size(); i++) {
@@ -194,12 +205,13 @@ public class AddStudentActivity extends AppCompatActivity {
         Intent in  = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(in,90);
     }
-    public void gallery(View view)
+    public void gallery(View view)//to open gallery to choose image for student
     {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent,91);
     }
 
+    //the image choosed from gallery is available through this function i.e., on activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -210,16 +222,18 @@ public class AddStudentActivity extends AppCompatActivity {
         }
         else if(requestCode==91 && resultCode==RESULT_OK)
         {
-            Uri uri = data.getData();
+            Uri uri = data.getData();//this runs for gallery result
             Uri selectedImageUri = data.getData();
             String selectedImagePath = getPath(getApplicationContext(),selectedImageUri);
             System.out.println("Image Path : " + selectedImagePath);
             student_photopath =selectedImagePath;
             edittext_imagepath.setText(student_photopath);
-            edittext_imagepath.setEnabled(false);
+            edittext_imagepath.setEnabled(false);//make edit text editabel false so admin cannot by mistake delete / change path
             Log.d("MYMESSAGE",selectedImagePath);
         }
     }
+
+    //this function give us absolute path of image selected from gallery
     public static String getPath( Context context, Uri uri ) {
         String result = null;
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -236,6 +250,8 @@ public class AddStudentActivity extends AppCompatActivity {
         }
         return result;
     }
+
+    //this function add new student data to firebase realtime database after checking whether data is valid or not.
     public void add(View view)
     {
         String studentid =edittext_student_id.getText().toString();
@@ -243,6 +259,8 @@ public class AddStudentActivity extends AppCompatActivity {
         String email_student = edittext_email.getText().toString();
         String mobile_student =edittext_mobile.getText().toString();
         String password = edittext_password.getText().toString();
+
+        //here data is stored in variable and checked for empty or not
         if (studentid.isEmpty()){
             Toast.makeText(getApplicationContext(),"Enter student id",Toast.LENGTH_SHORT).show();
         }
@@ -261,13 +279,15 @@ public class AddStudentActivity extends AppCompatActivity {
         else if (student_photopath.isEmpty()){
             Toast.makeText(getApplicationContext(),"Choose student image",Toast.LENGTH_SHORT).show();
         }
-        else{
+        else{//this else runs if everything is ok
+
+            //we can store object of a class directly to firebase database, so here an object of student class is set
             student student_object = new student(studentid,name_student,email_student,student_photopath+"/"+studentid,mobile_student,selected_department,password);
             DatabaseReference student_reference = studentref.child(studentid);
             Log.d("MYMESSAGE",student_reference.getKey());
-            if(checkDuplicateEntry(studentid)) {
+            if(checkDuplicateEntry(studentid)) {//duplicacy is checked for student id
                 student_reference.setValue(student_object);
-                uploadlogic(student_photopath , studentid);
+                uploadlogic(student_photopath , studentid);//this function upload image to firebase storage
             }
             else{
                 Toast.makeText(getApplicationContext(),"student with same ID in this department already exists",Toast.LENGTH_SHORT).show();
@@ -275,7 +295,7 @@ public class AddStudentActivity extends AppCompatActivity {
         }
     }
 
-    public void uploadlogic(String path , String studentid)
+    public void uploadlogic(String path , String studentid)//this function read image from phone memoery and upload it into firebase storage
     {
         File localfile=new File(path);
         final long uploadfilesize = localfile.length();
@@ -294,10 +314,10 @@ public class AddStudentActivity extends AppCompatActivity {
                 edittext_password.setText("");
                 student_photopath="";
                 //fetchProfessorsFromFirebase(selected_department);
-                mycustomadapter_student.notifyDataSetChanged();
+                mycustomadapter_student.notifyDataSetChanged();//adapter is refreshed to show newly added student
             }
         });
-        myuploadtask.addOnFailureListener(new OnFailureListener() {
+        myuploadtask.addOnFailureListener(new OnFailureListener() {//in case some failure occur while uploading this function inform us
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(AddStudentActivity.this, "New professor Upload Failed !!!", Toast.LENGTH_SHORT).show();
@@ -312,6 +332,8 @@ public class AddStudentActivity extends AppCompatActivity {
         });
     }
 
+    //this function delete student photo datafrom firebase storage when admin delete a student from the list
+    //to save memory on firabase storage
     public void deletefile(String path)
     {
         StorageReference file11 = mainrefstorage.child("studentss/"+path);
@@ -323,6 +345,7 @@ public class AddStudentActivity extends AppCompatActivity {
         });
     }
 
+    //this is custom adapter class to show array list data of students in list view
     class myadapter extends BaseAdapter
     {
         @Override

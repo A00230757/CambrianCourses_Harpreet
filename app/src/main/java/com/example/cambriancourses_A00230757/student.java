@@ -1,5 +1,5 @@
 package com.example.cambriancourses_A00230757;
-
+//student  class with member variables and constructor
 public class student {
     public String studentid;
     public String name;

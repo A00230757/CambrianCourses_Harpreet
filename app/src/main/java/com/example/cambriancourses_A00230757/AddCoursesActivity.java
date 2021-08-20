@@ -42,32 +42,32 @@ import java.util.ArrayList;
 
 public class AddCoursesActivity extends AppCompatActivity {
 
-    ArrayList<course> arraylist_courses = new ArrayList<course>();
-    myadapter mycustomadapter_courses;
+    ArrayList<course> arraylist_courses = new ArrayList<course>();//array list of type course class
+    myadapter mycustomadapter_courses;//customized adapter for courses to store image and other text data of course in listview
 
-    ListView listview_courses;
-    EditText edittext_course_code,edittext_course_name,edittext_description,edittext_imagepath;
+    ListView listview_courses;//listview reference to display coursess
+    EditText edittext_course_code,edittext_course_name,edittext_description,edittext_imagepath;//edit texts to nout course data
 
-    Spinner spinnerdepartment , spinnerprofessor;
-    ArrayList<String> arraydepartments = new ArrayList<>();
-    ArrayAdapter<String> adapter_departments ;
-    ArrayList<String> arrayprofessors = new ArrayList<>();
-    ArrayAdapter<String> adapter_professor;
+    Spinner spinnerdepartment , spinnerprofessor;//spinner views to show already added departments and professors
+    ArrayList<String> arraydepartments = new ArrayList<>();//array list to store departments from firebase
+    ArrayAdapter<String> adapter_departments ;//simple string adapter for departments to show in spinner view
+    ArrayList<String> arrayprofessors = new ArrayList<>();//array list to store professors
+    ArrayAdapter<String> adapter_professor;//string adapter for professors to show in spinner view
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference mainrefcourse;
-    DatabaseReference courseref;
-    FirebaseStorage firebaseStorage;
-    StorageReference mainrefstorage;
+    FirebaseDatabase firebaseDatabase;//firebase  database instance
+    DatabaseReference mainrefcourse;// firebase database main reference
+    DatabaseReference courseref;//reference to child courses
+    FirebaseStorage firebaseStorage;//firebase storage instance
+    StorageReference mainrefstorage;//firebase storage reference to child course photos
 
     String course_photopath="/storage/emulated/0/Pictures/Title (30).jpg/d1";
-    String selected_department="";
-    String selected_professor="";
+    String selected_department="";//store cureent selected department in spinner view
+    String selected_professor="";//store current selected professor in spinner view
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_courses);
-
+//memory to views
         listview_courses = (ListView) (findViewById(R.id.listview_courses));
         edittext_course_code = (EditText) (findViewById(R.id.edittext_course_code));
         edittext_course_name = (EditText) (findViewById(R.id.edittext_course_name));
@@ -75,14 +75,19 @@ public class AddCoursesActivity extends AppCompatActivity {
         edittext_imagepath = (EditText) (findViewById(R.id.edittext_imagepath));
 
         spinnerdepartment = (Spinner) (findViewById(R.id.spinnerdepartment));
+        //memory to adapter
         adapter_departments = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arraydepartments);
+        //set adapter with spinner department
         spinnerdepartment.setAdapter(adapter_departments);
+
         spinnerprofessor = (Spinner) (findViewById(R.id.spinnerprofessor));
+        //memory to adapter
         adapter_professor = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayprofessors);
+        //set adapter with spinner professor
         spinnerprofessor.setAdapter(adapter_professor);
 
 
-
+//objects of firebase reference classes defined at top of oncreate  are made here
         firebaseDatabase = FirebaseDatabase.getInstance(new firebase_cloud().getLink());
         mainrefcourse = firebaseDatabase.getReference();
         courseref =mainrefcourse.child("courses");
@@ -90,11 +95,11 @@ public class AddCoursesActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         mainrefstorage = firebaseStorage.getReference();
 
-        mycustomadapter_courses = new myadapter();
-        listview_courses.setAdapter(mycustomadapter_courses);
-        fetchDepartmentsFromFirebase();
+        mycustomadapter_courses = new myadapter();//memory to custom listview adapter to show already added courses
+        listview_courses.setAdapter(mycustomadapter_courses);//adapter set to list view
+        fetchDepartmentsFromFirebase();//fetch already added departments from firebase
 
-        spinnerdepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerdepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//click listerner on spinner department
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_department = arraydepartments.get(position);
@@ -114,7 +119,7 @@ public class AddCoursesActivity extends AppCompatActivity {
             }
         });
 
-        spinnerprofessor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerprofessor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//click listener on spinner professor
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_professor = arrayprofessors.get(position);
@@ -131,7 +136,7 @@ public class AddCoursesActivity extends AppCompatActivity {
 
 
 
-        listview_courses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listview_courses.setOnItemClickListener(new AdapterView.OnItemClickListener() {//click listener on already added courses list view
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), arraylist_courses.get(position).name+" "+arraylist_courses.get(position).description, Toast.LENGTH_SHORT).show();
@@ -139,7 +144,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         });
     }
 
-    public void fetchDepartmentsFromFirebase(){
+    public void fetchDepartmentsFromFirebase(){//this function fetch already added courses from firebase
         arraydepartments.clear();
         DatabaseReference mainrefdepartment;
         DatabaseReference departmentref;
@@ -159,9 +164,9 @@ public class AddCoursesActivity extends AppCompatActivity {
                     catch (Exception ex){
                         ex.printStackTrace();
                     }
-                    arraydepartments.add(depttemp.name);
+                    arraydepartments.add(depttemp.name);//store in array
                 }
-                adapter_departments.notifyDataSetChanged();
+                adapter_departments.notifyDataSetChanged();//refresh spinner department
                 //fetchProfessorsFromFirebase();
 
             }
@@ -172,7 +177,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         });
     }
 
-    public void fetchProfessorsFromFirebase(){
+    public void fetchProfessorsFromFirebase(){//fetch already added profeassors from firebase
         arrayprofessors.clear();
         DatabaseReference mainrefprofessor;
         DatabaseReference professorref;
@@ -196,7 +201,8 @@ public class AddCoursesActivity extends AppCompatActivity {
                         arrayprofessors.add(proftemp.name);
                     }
                 }
-                adapter_professor.notifyDataSetChanged();
+                adapter_professor.notifyDataSetChanged();//refresh spinner professor
+                selected_professor=arrayprofessors.get(0);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -206,7 +212,7 @@ public class AddCoursesActivity extends AppCompatActivity {
     }
 
 
-    public void fetchCoursesFromFirebase(String department_selected ,String professor_selected){
+    public void fetchCoursesFromFirebase(String department_selected ,String professor_selected){//fetch already added courses from firebase
         arraylist_courses.clear();
         courseref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -218,7 +224,7 @@ public class AddCoursesActivity extends AppCompatActivity {
                     course coursetemp = singlesnapshot.getValue(course.class);
                     try {
                         if(coursetemp.under_dept.equals(department_selected)&& coursetemp.professor.equals(professor_selected)){
-                            arraylist_courses.add(coursetemp);
+                            arraylist_courses.add(coursetemp);//add courses to array list
                         }
                     }
                     catch (Exception ex){
@@ -226,7 +232,7 @@ public class AddCoursesActivity extends AppCompatActivity {
                     }
 
                 }
-                mycustomadapter_courses.notifyDataSetChanged();
+                mycustomadapter_courses.notifyDataSetChanged();//referesh course list
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -235,7 +241,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         });
     }
 
-    public boolean checkDuplicateEntry (String coursecode){
+    public boolean checkDuplicateEntry (String coursecode){//chk  same course already exist in databse or not before adding one new
         boolean flag = true;
         for(int i=0; i<arraylist_courses.size(); i++) {
             String single_course_code = arraylist_courses.get(i).coursecode;
@@ -254,12 +260,13 @@ public class AddCoursesActivity extends AppCompatActivity {
         startActivityForResult(in,90);
     }
 
-    public void gallery(View view)
+    public void gallery(View view)//open gallery to select image
     {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent,91);
     }
 
+    //the image choosed from gallery is available through this function i.e., on activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -281,6 +288,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         }
     }
 
+    //this function give us absolute path of image selected from gallery
     public static String getPath( Context context, Uri uri ) {
         String result = null;
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -298,11 +306,12 @@ public class AddCoursesActivity extends AppCompatActivity {
         return result;
     }
 
-    public void add(View view)
+    public void add(View view)//add course to firebase database
     {
         String name_course = edittext_course_name.getText().toString();
         String code_course = edittext_course_name.getText().toString();
         String description_course = edittext_description.getText().toString();
+        //various checks to verify data validity
         if (code_course.isEmpty()){
             Toast.makeText(getApplicationContext(),"Enter course code",Toast.LENGTH_SHORT).show();
         }
@@ -321,7 +330,7 @@ public class AddCoursesActivity extends AppCompatActivity {
             Log.d("MYMESSAGE",course_reference.getKey());
             if(checkDuplicateEntry(code_course)) {
                 course_reference.setValue(course_object);
-                uploadlogic(course_photopath , code_course);
+                uploadlogic(course_photopath , code_course);//upload image in firebase storage
             }
             else{
                 Toast.makeText(getApplicationContext(),"course with same code in this department already exists",Toast.LENGTH_SHORT).show();
@@ -329,7 +338,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         }
     }
 
-    public void uploadlogic(String path , String coursecode)
+    public void uploadlogic(String path , String coursecode)//iupload image to firebase storage
     {
         File localfile=new File(path);
         final long uploadfilesize = localfile.length();
@@ -347,7 +356,7 @@ public class AddCoursesActivity extends AppCompatActivity {
                 course_photopath="";
 
                 //fetchCoursesFromFirebase(selected_department);
-                mycustomadapter_courses.notifyDataSetChanged();
+                mycustomadapter_courses.notifyDataSetChanged();//refresh list
             }
         });
         myuploadtask.addOnFailureListener(new OnFailureListener() {
@@ -365,7 +374,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         });
     }
 
-    public void deletefile(String path)
+    public void deletefile(String path)//delete previous photo from database
     {
         StorageReference file11 = mainrefstorage.child("courses/"+path);
         file11.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -376,7 +385,7 @@ public class AddCoursesActivity extends AppCompatActivity {
         });
     }
 
-    class myadapter extends BaseAdapter
+    class myadapter extends BaseAdapter//this is custom adapter class to show array list data of courses in list view
     {
         @Override
         public int getCount() {
@@ -411,7 +420,7 @@ public class AddCoursesActivity extends AppCompatActivity {
             texview_course_description.setText("Description: "+d.description);
             texview_course_photo.setText("path: "+d.path);
 
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();//load image on image view
             StorageReference course_photo_reference = storageRef.child("courses"+d.path);
             course_photo_reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
             {
@@ -423,7 +432,7 @@ public class AddCoursesActivity extends AppCompatActivity {
                 }
             });
 
-            new Thread(new Runnable() {
+            new Thread(new Runnable() {//delete course
                 @Override
                 public void run() {
                     btdelete.setOnClickListener(new View.OnClickListener() {

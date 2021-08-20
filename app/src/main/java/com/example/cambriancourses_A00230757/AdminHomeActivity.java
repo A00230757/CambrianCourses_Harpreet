@@ -11,10 +11,12 @@ import android.widget.Toast;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
-    ImageView imv1, imv2, imv3, imv4;
-    TextView textviewwelcome;
+    ImageView imv1, imv2, imv3, imv4;//icons of department student professor course
+    TextView textviewwelcome;//admin welcme message
     String adminid="";
 
+
+    //to store pics to dset on image view
     int a[] = {R.drawable.depticon, R.drawable.courses, R.drawable.professor , R.drawable.student};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,11 @@ public class AdminHomeActivity extends AppCompatActivity {
         imv3.setImageResource(a[2]);
         imv4.setImageResource(a[3]);
     }
-    public void logout(View view){
+    public void logout(View view){//admin logout
         Intent in =new Intent(this,MainInterface.class);
         startActivity(in);
     }
-    public void login(View v ) {
+    public void login(View v ) {//when admin click on different pics goto different activities
         if( v.getId() == R.id.imv1){
             Intent in =new Intent(this,AddDepartmentActivity.class);
             startActivity(in);
